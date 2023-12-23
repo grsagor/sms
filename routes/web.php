@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\FrontendController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::controller(FrontendController::class)->group(function() {
+    Route::get('/', 'home')->name('frontend.home');
+    Route::get('/about-us/{type}', 'aboutUs')->name('frontend.about.us');
+    Route::get('/administrations/{type}', 'administrations')->name('frontend.administrations');
+    Route::get('/academics/{type}', 'academics')->name('frontend.academics');
+    Route::get('/admission/{type}', 'admission')->name('frontend.admission');
+    Route::get('/facilities/{type}', 'facilities')->name('frontend.facilities');
+    Route::get('/gallery/{type}', 'gallery')->name('frontend.gallery');
+    Route::get('/notice', 'notice')->name('frontend.notice');
+    Route::get('/contact', 'contact')->name('frontend.contact');
+    Route::get('/acheivements', 'acheivements')->name('frontend.acheivements');
 });
