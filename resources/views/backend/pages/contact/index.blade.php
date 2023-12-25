@@ -1,18 +1,18 @@
 @extends('backend.layout.app')
-@section('title', 'Menu | ' . Helper::getSettings('application_name') ?? 'Alexandros')
+@section('title', 'Banner | ' . Helper::getSettings('application_name') ?? 'ABM')
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/vendor/tagsinput/tagsinput.css') }}">
 @endsection
 @section('content')
     <div class="container-fluid px-4">
-        <h4 class="mt-2">Menu Management</h4>
+        <h4 class="mt-2">Banner Management</h4>
 
         <div class="card my-2">
             <div class="card-header">
                 <div class="row ">
                     <div class="col-12 d-flex justify-content-between">
                         <div class="d-flex align-items-center">
-                            <h5 class="m-0">Menu List</h5>
+                            <h5 class="m-0">Banner List</h5>
                         </div>
                         @if (Helper::hasRight('menu.create'))
                             <button type="button" class="btn btn-primary btn-create-user create_form_btn"
@@ -26,7 +26,7 @@
                 <table class="table table-bordered" id="dataTable">
                     <thead>
                         <tr>
-                            <th>Title</th>
+                            <th>Image</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -37,24 +37,18 @@
             </div>
         </div>
     </div>
-    @include('backend.pages.menu.modal')
+    @include('backend.pages.home.banner.modal')
     @push('footer')
         <script src="{{ asset('assets/vendor/tagsinput/tagsinput.js') }}"></script>
         <script type="text/javascript">
-            function getArtist(name = null, phone = null, type = null, status = null) {
+            function getArtist() {
                 var table = jQuery('#dataTable').DataTable({
                     responsive: true,
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ url('admin/menu/get/list') }}",
+                        url: "{{ route('admin.home.banner.get.list') }}",
                         type: 'GET',
-                        data: {
-                            'name': name,
-                            'phone': phone,
-                            'type': type,
-                            'status': status,
-                        },
                     },
                     aLengthMenu: [
                         [25, 50, 100, 500, 5000, -1],
@@ -66,8 +60,8 @@
                     ],
                     columns: [
                         {
-                            data: 'title',
-                            name: 'title'
+                            data: 'file',
+                            name: 'file'
                         },
                         {
                             data: 'action',
@@ -80,6 +74,7 @@
                 });
             }
             getArtist();
+
 
             $(document).on('click', '#addPartnerBtn', function(e) {
                 e.preventDefault();
@@ -94,7 +89,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ route('admin.menu.store') }}",
+                        url: "{{ route('admin.home.banner.store') }}",
                         type: "POST",
                         data: formData,
                         processData: false,
@@ -132,7 +127,7 @@
                 e.preventDefault();
                 let id = $(this).attr('data-id');
                 $.ajax({
-                    url: "{{ route('admin.menu.edit') }}",
+                    url: "{{ route('admin.home.banner.edit') }}",
                     type: "GET",
                     data: {
                         id: id
@@ -158,7 +153,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ route('admin.menu.update') }}",
+                        url: "{{ route('admin.home.banner.update') }}",
                         type: "POST",
                         data: formData,
                         processData: false,
@@ -205,7 +200,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('admin.menu.delete') }}",
+                            url: "{{ route('admin.home.banner.delete') }}",
                             type: "GET",
                             data: {
                                 id: id
@@ -228,20 +223,6 @@
                     }
                 })
             })
-
-            $(document).on('click', '.view_btn', function(e) {
-                e.preventDefault();
-                let id = $(this).attr('data-id');
-                $.ajax({
-                    url: "{{ url('/admin/artist/view/') }}/" + id,
-                    type: "GET",
-                    dataType: "html",
-                    success: function(data) {
-                        $('#viewModal .modal-content').html(data);
-                        $('#viewModal').modal('show');
-                    }
-                })
-            });
 
             // next button
             $(document).on('click', '#createModal .next_btn', function(e) {

@@ -394,6 +394,7 @@ body {
   border-bottom: solid 1px #385b7952;
   padding-bottom: 10px;
   padding-top: 10px;
+  cursor: pointer;
 }
 
 /* .sb-sidenav .sb-sidenav-menu .nav .nav-link:hover  {
@@ -1478,6 +1479,9 @@ span.counter {
   min-height: auto !important;
   height: calc(0.69rem + 2px) !important;
   line-height: 1.25 !important;
+}
+.mytextarea.form-control {
+  height: auto !important;
 }
 
 .form-floating>label {

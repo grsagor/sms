@@ -1,23 +1,23 @@
 @extends('backend.layout.app')
-@section('title', 'Menu | ' . Helper::getSettings('application_name') ?? 'Alexandros')
+@section('title', 'Introduction | ' . Helper::getSettings('application_name') ?? 'ABM')
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/vendor/tagsinput/tagsinput.css') }}">
 @endsection
 @section('content')
     <div class="container-fluid px-4">
-        <h4 class="mt-2">Menu Management</h4>
+        <h4 class="mt-2">Introduction Management</h4>
 
         <div class="card my-2">
             <div class="card-header">
                 <div class="row ">
                     <div class="col-12 d-flex justify-content-between">
                         <div class="d-flex align-items-center">
-                            <h5 class="m-0">Menu List</h5>
+                            <h5 class="m-0">Introduction Member List</h5>
                         </div>
                         @if (Helper::hasRight('menu.create'))
                             <button type="button" class="btn btn-primary btn-create-user create_form_btn"
                                 data-bs-toggle="modal" data-bs-target="#createModal"><i class="fa-solid fa-plus"></i>
-                                Add</button>
+                                Add Member</button>
                         @endif
                     </div>
                 </div>
@@ -26,7 +26,9 @@
                 <table class="table table-bordered" id="dataTable">
                     <thead>
                         <tr>
-                            <th>Title</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Designation</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -36,25 +38,41 @@
                 </table>
             </div>
         </div>
+
+        <div class="card my-2">
+            <div class="card-header">
+                <div class="row ">
+                    <div class="col-12 d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <h5 class="m-0">Introduction Member List</h5>
+                        </div>
+                        @if (Helper::hasRight('menu.create'))
+                                <button type="button" class="btn btn-primary" id="changeTextBtn"
+                                data-key="application_introduction"><i class="fa-solid fa-plus"></i>
+                                    Change the text</button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p id="setting-text-container">
+                    {{ Helper::getSettings('application_introduction') ? Helper::getSettings('application_introduction') : 'No text added.' }}
+                </p>
+            </div>
+        </div>
     </div>
-    @include('backend.pages.menu.modal')
+    @include('backend.pages.home.introduction.modal')
     @push('footer')
         <script src="{{ asset('assets/vendor/tagsinput/tagsinput.js') }}"></script>
         <script type="text/javascript">
-            function getArtist(name = null, phone = null, type = null, status = null) {
+            function getArtist() {
                 var table = jQuery('#dataTable').DataTable({
                     responsive: true,
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ url('admin/menu/get/list') }}",
+                        url: "{{ route('admin.home.introduction.get.list') }}",
                         type: 'GET',
-                        data: {
-                            'name': name,
-                            'phone': phone,
-                            'type': type,
-                            'status': status,
-                        },
                     },
                     aLengthMenu: [
                         [25, 50, 100, 500, 5000, -1],
@@ -64,10 +82,17 @@
                     "order": [
                         [1, 'asc']
                     ],
-                    columns: [
+                    columns: [{
+                            data: 'file',
+                            name: 'file'
+                        },
                         {
-                            data: 'title',
-                            name: 'title'
+                            data: 'name',
+                            name: 'name'
+                        },
+                        {
+                            data: 'designation',
+                            name: 'designation'
                         },
                         {
                             data: 'action',
@@ -80,6 +105,7 @@
                 });
             }
             getArtist();
+
 
             $(document).on('click', '#addPartnerBtn', function(e) {
                 e.preventDefault();
@@ -94,7 +120,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ route('admin.menu.store') }}",
+                        url: "{{ route('admin.home.introduction.store') }}",
                         type: "POST",
                         data: formData,
                         processData: false,
@@ -132,7 +158,7 @@
                 e.preventDefault();
                 let id = $(this).attr('data-id');
                 $.ajax({
-                    url: "{{ route('admin.menu.edit') }}",
+                    url: "{{ route('admin.home.introduction.edit') }}",
                     type: "GET",
                     data: {
                         id: id
@@ -144,6 +170,65 @@
                     }
                 })
             });
+
+            $(document).on('click', '#changeTextBtn', function(e) {
+                let key = $(this).attr('data-key');
+                $.ajax({
+                    url: "{{ route('admin.setting.update.modal') }}",
+                    type: "GET",
+                    data: { key: key },
+                    dataType: "html",
+                    success: function(html) {
+                        $('#updateSettingModal .modal-content').html(html);
+                        $('#updateSettingModal').modal('show');
+                    }
+                })
+            });
+
+            $(document).on('click', '#updateSettingFromModalBtn', function(e) {
+                e.preventDefault();
+                let go_next_step = true;
+                if ($(this).attr('data-check-area') && $(this).attr('data-check-area').trim() !== '') {
+                    go_next_step = check_validation_Form('#editModal .' + $(this).attr('data-check-area'));
+                }
+                if (go_next_step == true) {
+                    let form = document.getElementById('updateSettingModalForm');
+                    var formData = new FormData(form);
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: "{{ route('admin.setting.update.from.modal') }}",
+                        type: "POST",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            let heading = response.type.charAt(0).toUpperCase() + response.type.slice(1);
+                            $.toast({
+                                heading: heading,
+                                text: response.message,
+                                position: 'top-center',
+                                icon: response.type
+                            })
+                            $('#setting-text-container').text(response.val);
+                            $('#updateSettingModal').modal('hide');
+                        },
+                        error: function(xhr) {
+
+                            let errorMessage = '';
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                errorMessage += ('' + value + '<br>');
+                            });
+                            $('#updateSettingModalForm .server_side_error').empty();
+                            $('#updateSettingModalForm .server_side_error').html(
+                                '<div class="alert alert-danger" role="alert">' + errorMessage +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+                            );
+                        },
+                    })
+                }
+            })
 
             $(document).on('click', '#editPartnerBtn', function(e) {
                 e.preventDefault();
@@ -158,7 +243,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ route('admin.menu.update') }}",
+                        url: "{{ route('admin.home.introduction.update') }}",
                         type: "POST",
                         data: formData,
                         processData: false,
@@ -205,7 +290,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('admin.menu.delete') }}",
+                            url: "{{ route('admin.home.introduction.delete') }}",
                             type: "GET",
                             data: {
                                 id: id
@@ -228,20 +313,6 @@
                     }
                 })
             })
-
-            $(document).on('click', '.view_btn', function(e) {
-                e.preventDefault();
-                let id = $(this).attr('data-id');
-                $.ajax({
-                    url: "{{ url('/admin/artist/view/') }}/" + id,
-                    type: "GET",
-                    dataType: "html",
-                    success: function(data) {
-                        $('#viewModal .modal-content').html(data);
-                        $('#viewModal').modal('show');
-                    }
-                })
-            });
 
             // next button
             $(document).on('click', '#createModal .next_btn', function(e) {

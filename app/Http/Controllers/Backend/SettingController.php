@@ -85,4 +85,54 @@ class SettingController extends Controller
         Session::put('admin_language', $language);
         return true;
     }
+
+    public function updateSettingModal(Request $request) {
+        $key = $request->key;
+        $parts = explode('_', $key);
+        if (isset($parts[1])) {
+            $parts[1] = ucfirst($parts[1]);
+        }
+        $label = isset($parts[1]) ? $parts[1] : $key;
+        return view('backend.pages.setting.setting-update-modal', compact('key', 'label'));
+    }
+
+    public function updateFromModal(Request $request){
+        $data = [];
+
+        foreach($request->file() as $key => $val){
+            if ($request->hasFile($key)) {
+                // if (file_exists(public_path('uploads/settings/'.Helper::getSettings($key)))) {
+                //     unlink(public_path('uploads/settings/'.Helper::getSettings($key)));
+                // }
+                $image = $request->file($key);
+                $filename = time().uniqid().$image->getClientOriginalName();
+                $image->move(public_path('uploads/settings'), $filename);
+                $data[$key] = $filename;
+            }
+        }
+
+        foreach ($request->input() as $key => $val) {
+            if (!is_array($val)) {
+                $request->validate([
+                    $val => 'nullable | string'
+                ]);
+                $data[$key] = $val;
+            } else {
+                $data[$key] = implode(',', $val);
+            }
+        }
+        unset($data['_token']);
+
+        foreach ($data as $key => $val) {
+            $settings = Setting::updateOrCreate(
+                ['key' =>  $key],
+                ['value' => $val]
+            );
+        }
+        return response()->json([
+            'type' => 'success',
+            'val' => $val,
+            'message' => 'Setting updated successfully.',
+        ]);
+    }
 }
