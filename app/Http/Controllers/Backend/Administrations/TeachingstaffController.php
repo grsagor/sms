@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Backend\Administrations;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\TeachingStaff;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class TeachingstaffController extends Controller
 {
@@ -13,12 +16,12 @@ class TeachingstaffController extends Controller
 
     public function getList()
     {
-        $data = Banner::all();
+        $data = TeachingStaff::all();
 
         return DataTables::of($data)
 
-            ->editColumn('file', function ($row) {
-                $images = $row->file;
+            ->editColumn('image', function ($row) {
+                $images = $row->image;
                 return '<a href="'.asset($images).'" target="_blank"><img class="" width="50px" height="50px" src="'.asset($images).'" alt="profile image"></a>';
             })
 
@@ -32,7 +35,7 @@ class TeachingstaffController extends Controller
                 }
                 return $btn;
             })
-            ->rawColumns(['file', 'action'])->make(true);
+            ->rawColumns(['image', 'action'])->make(true);
     }
 
     public function store(Request $request)
@@ -49,16 +52,21 @@ class TeachingstaffController extends Controller
         ];
         $validator = $request->validate($rules);
 
-        $banner = new Banner();
+        $teaching_staff = new TeachingStaff();
+
+        $teaching_staff->name = $request->name;
+        $teaching_staff->designation = $request->designation;
+        $teaching_staff->subject = $request->subject;
+        $teaching_staff->shift = $request->shift;
 
         if ($request->hasFile('file')) {
             $image = $request->file('file');
             $filename = time() . uniqid() . $image->getClientOriginalName();
             $image->move(public_path('uploads/banner-images'), $filename);
-            $banner->file = 'uploads/banner-images/' . $filename;
+            $teaching_staff->image = 'uploads/banner-images/' . $filename;
         }
 
-        if ($banner->save()) {
+        if ($teaching_staff->save()) {
             return response()->json([
                 'type' => 'success',
                 'message' => 'Banner created successfully.',
@@ -73,13 +81,13 @@ class TeachingstaffController extends Controller
 
     public function edit(Request $request)
     {
-        $banner = Banner::find($request->id);
+        $teaching_staff = TeachingStaff::find($request->id);
 
         $data = [
-            'banner' => $banner,
+            'teaching_staff' => $teaching_staff,
         ];
 
-        return view('backend.pages.home.banner.edit', $data);
+        return view('backend.pages.administrations.teaching-staff.edit', $data);
     }
 
     public function update(Request $request)
@@ -92,24 +100,28 @@ class TeachingstaffController extends Controller
         }
         $requestData = $request->all();
         $rules = [
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
 
         $validator = $request->validate($rules);
-        $banner = Banner::find($request->id);
+        $teaching_staff = TeachingStaff::find($request->id);
+
+        $teaching_staff->name = $request->name;
+        $teaching_staff->designation = $request->designation;
+        $teaching_staff->subject = $request->subject;
+        $teaching_staff->shift = $request->shift;
 
         if ($request->hasFile('file')) {
-            if ($banner->file && file_exists(public_path($banner->file))) {
-                unlink(public_path($banner->file));
+            if ($teaching_staff->image && file_exists(public_path($teaching_staff->image))) {
+                unlink(public_path($teaching_staff->image));
             }
 
             $image = $request->file('file');
             $filename = time() . uniqid() . $image->getClientOriginalName();
             $image->move(public_path('uploads/banner-images'), $filename);
-            $banner->file = 'uploads/banner-images/' . $filename;
+            $teaching_staff->image = 'uploads/banner-images/' . $filename;
         }
 
-        if ($banner->save()) {
+        if ($teaching_staff->save()) {
             return response()->json([
                 'type' => 'success',
                 'message' => 'Banner updated successfully.',
@@ -131,19 +143,19 @@ class TeachingstaffController extends Controller
             ]);
         }
 
-        $banner = Banner::find($request->id);
-        if ($banner) {
-            if ($banner->file && file_exists(public_path($banner->file))) {
-                unlink(public_path($banner->file));
+        $teaching_staff = TeachingStaff::find($request->id);
+        if ($teaching_staff) {
+            if ($teaching_staff->image && file_exists(public_path($teaching_staff->image))) {
+                unlink(public_path($teaching_staff->image));
             }
 
-            if ($banner->delete()) {
+            if ($teaching_staff->delete()) {
                 return response()->json([
                     'type' => 'success',
                     'message' => 'Banner deleted successfully.',
                 ]);
             } else {
-                return redirect()->route('admin.home.banner')->with('error', 'Something went wrong.');
+                return redirect()->route('admin.administrations.teaching-staff')->with('error', 'Something went wrong.');
             }
         } else {
             return json_encode(['error' => 'Menu not found.']);

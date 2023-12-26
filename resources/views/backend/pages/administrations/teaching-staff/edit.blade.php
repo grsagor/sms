@@ -1,8 +1,8 @@
 <form id="partnerEditForm" method="post" enctype="multipart/form-data">
     @csrf
-    <input type="hidden" name="id" value="{{ $banner->id }}">
+    <input type="hidden" name="id" value="{{ $teaching_staff->id }}">
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Banner</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edit Teaching Staff</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>
         </button>
@@ -15,12 +15,41 @@
         </div>
         <div class="col-sm-12 tab-content" id="v-pills-tabContent">
             <div class="step step_1 tab-pane fade show active create-artist">
+                <div class="d-flex gap-1 mb-1 w-100">
+                    <div class="form-floating mb-1 w-100">
+                        <input type="text" class="form-control" placeholder="Title"
+                            value="{{ $teaching_staff->name }}" name="name">
+                        <label for="">Name<span class="text-danger">*</span></label>
+                    </div>
+                </div>
+                <div class="d-flex gap-1 mb-1 w-100">
+                    <div class="form-floating mb-1 w-100">
+                        <input type="text" class="form-control" placeholder="Title"
+                            value="{{ $teaching_staff->designation }}" name="designation">
+                        <label for="">Designation<span class="text-danger">*</span></label>
+                    </div>
+                </div>
+                <div class="d-flex gap-1 mb-1 w-100">
+                    <div class="form-floating mb-1 w-100">
+                        <input type="text" class="form-control" placeholder="Title"
+                            value="{{ $teaching_staff->subject }}" name="subject">
+                        <label for="">Subject<span class="text-danger">*</span></label>
+                    </div>
+                </div>
+                <div class="form-group mb-2">
+                    <select name="shift" class="form-control shift" id="shift" required>
+                        <option value="">-- Select Type --</option>
+                        <option {{ $teaching_staff->shift == 'Morning' ? 'selected' : '' }} value="Morning">Morning</option>
+                        <option {{ $teaching_staff->shift == 'Day' ? 'selected' : '' }} value="Day">Day</option>
+                        <option {{ $teaching_staff->shift == 'College' ? 'selected' : '' }} value="College">College</option>
+                    </select>
+                </div>
                 <div class="d-flex w-100 gap-2 mb-1">
                     <div class="form-group mb-1 w-100">
                         <input type="file" class="form-control"
                             onchange="previewFile('editModal #profile_image', 'editModal .profile_image')"
                             name="file" id="profile_image">
-                        <img src="{{ $banner->file ? asset($banner->file) : asset('assets/img/no-img.jpg') }}" height="80px" width="100px"
+                        <img src="{{ $teaching_staff->image ? asset($teaching_staff->image) : asset('assets/img/no-img.jpg') }}" height="80px" width="100px"
                             class="profile_image mt-1 border" alt="">
                     </div>
                 </div>

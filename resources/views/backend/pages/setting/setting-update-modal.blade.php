@@ -16,7 +16,7 @@
             <div class="step step_1 tab-pane fade show active create-artist">
                 <div class="form-floating mb-1 w-100">
                     <textarea type="text" class="form-control mytextarea" placeholder="Email" name="{{ $key }}" id="{{ $key }}"
-                        value="{{ Helper::getSettings($key) ? Helper::getSettings($key) : 'No text added.' }}" rows="10" required>{{ Helper::getSettings($key) ? Helper::getSettings($key) : 'No text added.' }}</textarea>
+                        value="{{ Helper::getSettings($key) }}" rows="10" required>{{ Helper::getSettings($key) }}</textarea>
                     <label for="{{ $key }}">{{ $label }}<span class="text-danger">*</span></label>
                 </div>
             </div>

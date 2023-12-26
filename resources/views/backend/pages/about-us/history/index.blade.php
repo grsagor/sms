@@ -1,23 +1,23 @@
 @extends('backend.layout.app')
-@section('title', 'Banner | ' . Helper::getSettings('application_name') ?? 'ABM')
+@section('title', 'History | ' . Helper::getSettings('application_name') ?? 'ABM')
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/vendor/tagsinput/tagsinput.css') }}">
 @endsection
 @section('content')
     <div class="container-fluid px-4">
-        <h4 class="mt-2">Banner Management</h4>
+        <h4 class="mt-2">History Management</h4>
 
         <div class="card my-2">
             <div class="card-header">
                 <div class="row ">
                     <div class="col-12 d-flex justify-content-between">
                         <div class="d-flex align-items-center">
-                            <h5 class="m-0">Banner List</h5>
+                            <h5 class="m-0">History Image List</h5>
                         </div>
                         @if (Helper::hasRight('menu.create'))
                             <button type="button" class="btn btn-primary btn-create-user create_form_btn"
                                 data-bs-toggle="modal" data-bs-target="#createModal"><i class="fa-solid fa-plus"></i>
-                                Add</button>
+                                Add Image</button>
                         @endif
                     </div>
                 </div>
@@ -36,8 +36,30 @@
                 </table>
             </div>
         </div>
+
+        <div class="card my-2">
+            <div class="card-header">
+                <div class="row ">
+                    <div class="col-12 d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <h5 class="m-0">History Image List</h5>
+                        </div>
+                        @if (Helper::hasRight('menu.create'))
+                                <button type="button" class="btn btn-primary settingUpdateOpenModalBtn"
+                                data-key="application_history"><i class="fa-solid fa-plus"></i>
+                                    Change the text</button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p id="setting-text-container">
+                    {!! nl2br(Helper::getSettings('application_history') ? Helper::getSettings('application_history') : 'No text added.') !!}
+                </p>
+            </div>
+        </div>
     </div>
-    @include('backend.pages.home.banner.modal')
+    @include('backend.pages.about-us.history.modal')
     @push('footer')
         <script src="{{ asset('assets/vendor/tagsinput/tagsinput.js') }}"></script>
         <script type="text/javascript">
@@ -47,7 +69,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('admin.home.banner.get.list') }}",
+                        url: "{{ route('admin.about.us.history.get.list') }}",
                         type: 'GET',
                     },
                     aLengthMenu: [
@@ -58,8 +80,7 @@
                     "order": [
                         [1, 'asc']
                     ],
-                    columns: [
-                        {
+                    columns: [{
                             data: 'file',
                             name: 'file'
                         },
@@ -89,7 +110,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ route('admin.home.banner.store') }}",
+                        url: "{{ route('admin.about.us.history.store') }}",
                         type: "POST",
                         data: formData,
                         processData: false,
@@ -127,7 +148,7 @@
                 e.preventDefault();
                 let id = $(this).attr('data-id');
                 $.ajax({
-                    url: "{{ route('admin.home.banner.edit') }}",
+                    url: "{{ route('admin.about.us.history.edit') }}",
                     type: "GET",
                     data: {
                         id: id
@@ -139,6 +160,65 @@
                     }
                 })
             });
+
+            $(document).on('click', '.settingUpdateOpenModalBtn', function(e) {
+                let key = $(this).attr('data-key');
+                $.ajax({
+                    url: "{{ route('admin.setting.update.modal') }}",
+                    type: "GET",
+                    data: { key: key },
+                    dataType: "html",
+                    success: function(html) {
+                        $('#updateSettingModal .modal-content').html(html);
+                        $('#updateSettingModal').modal('show');
+                    }
+                })
+            });
+
+            $(document).on('click', '#updateSettingFromModalBtn', function(e) {
+                e.preventDefault();
+                let go_next_step = true;
+                if ($(this).attr('data-check-area') && $(this).attr('data-check-area').trim() !== '') {
+                    go_next_step = check_validation_Form('#updateSettingModal .' + $(this).attr('data-check-area'));
+                }
+                if (go_next_step == true) {
+                    let form = document.getElementById('updateSettingModalForm');
+                    var formData = new FormData(form);
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: "{{ route('admin.setting.update.from.modal') }}",
+                        type: "POST",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            let heading = response.type.charAt(0).toUpperCase() + response.type.slice(1);
+                            $.toast({
+                                heading: heading,
+                                text: response.message,
+                                position: 'top-center',
+                                icon: response.type
+                            })
+                            $('#setting-text-container').text(response.val);
+                            $('#updateSettingModal').modal('hide');
+                        },
+                        error: function(xhr) {
+
+                            let errorMessage = '';
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                errorMessage += ('' + value + '<br>');
+                            });
+                            $('#updateSettingModalForm .server_side_error').empty();
+                            $('#updateSettingModalForm .server_side_error').html(
+                                '<div class="alert alert-danger" role="alert">' + errorMessage +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+                            );
+                        },
+                    })
+                }
+            })
 
             $(document).on('click', '#editPartnerBtn', function(e) {
                 e.preventDefault();
@@ -153,7 +233,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ route('admin.home.banner.update') }}",
+                        url: "{{ route('admin.about.us.history.update') }}",
                         type: "POST",
                         data: formData,
                         processData: false,
@@ -200,7 +280,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('admin.home.banner.delete') }}",
+                            url: "{{ route('admin.about.us.history.delete') }}",
                             type: "GET",
                             data: {
                                 id: id

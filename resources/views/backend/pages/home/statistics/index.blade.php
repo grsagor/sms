@@ -1,23 +1,23 @@
 @extends('backend.layout.app')
-@section('title', 'Banner | ' . Helper::getSettings('application_name') ?? 'ABM')
+@section('title', 'Statistics | ' . Helper::getSettings('application_name') ?? 'ABM')
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/vendor/tagsinput/tagsinput.css') }}">
 @endsection
 @section('content')
     <div class="container-fluid px-4">
-        <h4 class="mt-2">Banner Management</h4>
+        <h4 class="mt-2">Statistics Management</h4>
 
         <div class="card my-2">
             <div class="card-header">
                 <div class="row ">
                     <div class="col-12 d-flex justify-content-between">
                         <div class="d-flex align-items-center">
-                            <h5 class="m-0">Banner List</h5>
+                            <h5 class="m-0">Statistics List</h5>
                         </div>
                         @if (Helper::hasRight('menu.create'))
-                            <button type="button" class="btn btn-primary btn-create-user create_form_btn"
-                                data-bs-toggle="modal" data-bs-target="#createModal"><i class="fa-solid fa-plus"></i>
-                                Add</button>
+                            <button type="button" class="btn btn-primary edit_btn"
+                                ><i class="fa-solid fa-plus"></i>
+                                Update</button>
                         @endif
                     </div>
                 </div>
@@ -26,8 +26,8 @@
                 <table class="table table-bordered" id="dataTable">
                     <thead>
                         <tr>
-                            <th>Image</th>
-                            <th>Action</th>
+                            <th>Key</th>
+                            <th>Value</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,7 +37,7 @@
             </div>
         </div>
     </div>
-    @include('backend.pages.home.banner.modal')
+    @include('backend.pages.home.statistics.modal')
     @push('footer')
         <script src="{{ asset('assets/vendor/tagsinput/tagsinput.js') }}"></script>
         <script type="text/javascript">
@@ -47,7 +47,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('admin.home.banner.get.list') }}",
+                        url: "{{ route('admin.home.statistics.get.list') }}",
                         type: 'GET',
                     },
                     aLengthMenu: [
@@ -55,21 +55,15 @@
                         [25, 50, 100, 500, 5000, "All"]
                     ],
                     iDisplayLength: 25,
-                    "order": [
-                        [1, 'asc']
-                    ],
                     columns: [
                         {
-                            data: 'file',
-                            name: 'file'
+                            data: 'key',
+                            name: 'key'
                         },
                         {
-                            data: 'action',
-                            name: 'action',
-                            orderable: false,
-                            searchable: false,
-                            "className": "text-center w-10"
-                        },
+                            data: 'value',
+                            name: 'value'
+                        }
                     ]
                 });
             }
@@ -89,7 +83,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ route('admin.home.banner.store') }}",
+                        url: "{{ route('admin.setting.update.from.modal') }}",
                         type: "POST",
                         data: formData,
                         processData: false,
@@ -125,13 +119,9 @@
 
             $(document).on('click', '.edit_btn', function(e) {
                 e.preventDefault();
-                let id = $(this).attr('data-id');
                 $.ajax({
-                    url: "{{ route('admin.home.banner.edit') }}",
+                    url: "{{ route('admin.home.statistics.edit') }}",
                     type: "GET",
-                    data: {
-                        id: id
-                    },
                     dataType: "html",
                     success: function(data) {
                         $('#editModal .modal-content').html(data);
@@ -153,7 +143,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ route('admin.home.banner.update') }}",
+                        url: "{{ route('admin.setting.update.from.modal') }}",
                         type: "POST",
                         data: formData,
                         processData: false,
@@ -200,7 +190,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('admin.home.banner.delete') }}",
+                            url: "{{ route('admin.home.statistics.delete') }}",
                             type: "GET",
                             data: {
                                 id: id

@@ -152,6 +152,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkAdmin'], function () {
         Route::group(['prefix' => '/statistics'], function () {
             Route::controller(StatisticsController::class)->group(function () {
                 Route::get('/', 'index')->name('admin.home.statistics');
+                Route::get('/get/list', 'getList')->name('admin.home.statistics.get.list');
+                Route::post('/store', 'store')->name('admin.home.statistics.store');
+                Route::get('/edit', 'edit')->name('admin.home.statistics.edit');
+                Route::post('/update', 'update')->name('admin.home.statistics.update');
+                Route::get('/delete', 'delete')->name('admin.home.statistics.delete');
             });
         });
     });
@@ -160,18 +165,33 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkAdmin'], function () {
         Route::group(['prefix' => '/glance'], function () {
             Route::controller(GlanceController::class)->group(function () {
                 Route::get('/', 'index')->name('admin.about.us.glance');
+                Route::get('/get/list', 'getList')->name('admin.about.us.glance.get.list');
+                Route::post('/store', 'store')->name('admin.about.us.glance.store');
+                Route::get('/edit', 'edit')->name('admin.about.us.glance.edit');
+                Route::post('/update', 'update')->name('admin.about.us.glance.update');
+                Route::get('/delete', 'delete')->name('admin.about.us.glance.delete');
             });
         });
 
         Route::group(['prefix' => '/history'], function () {
             Route::controller(HistoryController::class)->group(function () {
                 Route::get('/', 'index')->name('admin.about.us.history');
+                Route::get('/get/list', 'getList')->name('admin.about.us.history.get.list');
+                Route::post('/store', 'store')->name('admin.about.us.history.store');
+                Route::get('/edit', 'edit')->name('admin.about.us.history.edit');
+                Route::post('/update', 'update')->name('admin.about.us.history.update');
+                Route::get('/delete', 'delete')->name('admin.about.us.history.delete');
             });
         });
 
         Route::group(['prefix' => '/why'], function () {
             Route::controller(WhyController::class)->group(function () {
                 Route::get('/', 'index')->name('admin.about.us.why');
+                Route::get('/get/list', 'getList')->name('admin.about.us.why.get.list');
+                Route::post('/store', 'store')->name('admin.about.us.why.store');
+                Route::get('/edit', 'edit')->name('admin.about.us.why.edit');
+                Route::post('/update', 'update')->name('admin.about.us.why.update');
+                Route::get('/delete', 'delete')->name('admin.about.us.why.delete');
             });
         });
     });
@@ -180,6 +200,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkAdmin'], function () {
         Route::group(['prefix' => '/governing-body'], function () {
             Route::controller(GoverningbodyController::class)->group(function () {
                 Route::get('/', 'index')->name('admin.administrations.governing.body');
+                Route::get('/get/list', 'getList')->name('admin.administrations.governing.body.get.list');
+                Route::post('/store', 'store')->name('admin.administrations.governing.body.store');
+                Route::get('/edit', 'edit')->name('admin.administrations.governing.body.edit');
+                Route::post('/update', 'update')->name('admin.administrations.governing.body.update');
+                Route::get('/delete', 'delete')->name('admin.administrations.governing.body.delete');
             });
         });
 
@@ -192,6 +217,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkAdmin'], function () {
         Route::group(['prefix' => '/teaching-staff'], function () {
             Route::controller(TeachingstaffController::class)->group(function () {
                 Route::get('/', 'index')->name('admin.administrations.teaching.staff');
+                Route::get('/get/list', 'getList')->name('admin.administrations.teaching.staff.get.list');
+                Route::post('/store', 'store')->name('admin.administrations.teaching.staff.store');
+                Route::get('/edit', 'edit')->name('admin.administrations.teaching.staff.edit');
+                Route::post('/update', 'update')->name('admin.administrations.teaching.staff.update');
+                Route::get('/delete', 'delete')->name('admin.administrations.teaching.staff.delete');
             });
         });
     });
@@ -239,21 +269,36 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkAdmin'], function () {
     });
 
     Route::group(['prefix' => '/facilities'], function () {
-        Route::group(['prefix' => '/science'], function () {
+        Route::group(['prefix' => '/'], function () {
             Route::controller(ScienceController::class)->group(function () {
-                Route::get('/', 'index')->name('admin.facilities.science');
+                Route::get('/', 'index')->name('admin.facilities');
+                Route::get('/get/list', 'getList')->name('admin.facilities.science.get.list');
+                Route::post('/store', 'store')->name('admin.facilities.science.store');
+                Route::get('/edit', 'edit')->name('admin.facilities.science.edit');
+                Route::post('/update', 'update')->name('admin.facilities.science.update');
+                Route::get('/delete', 'delete')->name('admin.facilities.science.delete');
             });
         });
         
         Route::group(['prefix' => '/ict'], function () {
             Route::controller(IctController::class)->group(function () {
                 Route::get('/', 'index')->name('admin.facilities.ict');
+                Route::get('/get/list', 'getList')->name('admin.facilities.ict.get.list');
+                Route::post('/store', 'store')->name('admin.facilities.ict.store');
+                Route::get('/edit', 'edit')->name('admin.facilities.ict.edit');
+                Route::post('/update', 'update')->name('admin.facilities.ict.update');
+                Route::get('/delete', 'delete')->name('admin.facilities.ict.delete');
             });
         });
         
         Route::group(['prefix' => '/library'], function () {
             Route::controller(LibraryController::class)->group(function () {
                 Route::get('/', 'index')->name('admin.facilities.library');
+                Route::get('/get/list', 'getList')->name('admin.facilities.library.get.list');
+                Route::post('/store', 'store')->name('admin.facilities.library.store');
+                Route::get('/edit', 'edit')->name('admin.facilities.library.edit');
+                Route::post('/update', 'update')->name('admin.facilities.library.update');
+                Route::get('/delete', 'delete')->name('admin.facilities.library.delete');
             });
         });
 

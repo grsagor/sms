@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Backend\Aboutus;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\Why;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class WhyController extends Controller
 {
@@ -13,12 +16,12 @@ class WhyController extends Controller
 
     public function getList()
     {
-        $data = Banner::all();
+        $data = Why::all();
 
         return DataTables::of($data)
 
-            ->editColumn('file', function ($row) {
-                $images = $row->file;
+            ->editColumn('image', function ($row) {
+                $images = $row->image;
                 return '<a href="'.asset($images).'" target="_blank"><img class="" width="50px" height="50px" src="'.asset($images).'" alt="profile image"></a>';
             })
 
@@ -32,7 +35,7 @@ class WhyController extends Controller
                 }
                 return $btn;
             })
-            ->rawColumns(['file', 'action'])->make(true);
+            ->rawColumns(['image', 'action'])->make(true);
     }
 
     public function store(Request $request)
@@ -45,20 +48,25 @@ class WhyController extends Controller
         }
         $requestData = $request->all();
         $rules = [
+            'title' => 'required',
+            'description' => 'required',
             'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
         $validator = $request->validate($rules);
 
-        $banner = new Banner();
+        $why = new Why();
+
+        $why->title = $request->title;
+        $why->description = $request->description;
 
         if ($request->hasFile('file')) {
             $image = $request->file('file');
             $filename = time() . uniqid() . $image->getClientOriginalName();
             $image->move(public_path('uploads/banner-images'), $filename);
-            $banner->file = 'uploads/banner-images/' . $filename;
+            $why->image = 'uploads/banner-images/' . $filename;
         }
 
-        if ($banner->save()) {
+        if ($why->save()) {
             return response()->json([
                 'type' => 'success',
                 'message' => 'Banner created successfully.',
@@ -73,13 +81,13 @@ class WhyController extends Controller
 
     public function edit(Request $request)
     {
-        $banner = Banner::find($request->id);
+        $why = Why::find($request->id);
 
         $data = [
-            'banner' => $banner,
+            'why' => $why,
         ];
 
-        return view('backend.pages.home.banner.edit', $data);
+        return view('backend.pages.about-us.why.edit', $data);
     }
 
     public function update(Request $request)
@@ -92,27 +100,30 @@ class WhyController extends Controller
         }
         $requestData = $request->all();
         $rules = [
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ];
+            'title' => 'required',
+            'description' => 'required',        ];
 
         $validator = $request->validate($rules);
-        $banner = Banner::find($request->id);
+        $why = Why::find($request->id);
+
+        $why->title = $request->title;
+        $why->description = $request->description;
 
         if ($request->hasFile('file')) {
-            if ($banner->file && file_exists(public_path($banner->file))) {
-                unlink(public_path($banner->file));
+            if ($why->image && file_exists(public_path($why->image))) {
+                unlink(public_path($why->image));
             }
 
             $image = $request->file('file');
             $filename = time() . uniqid() . $image->getClientOriginalName();
             $image->move(public_path('uploads/banner-images'), $filename);
-            $banner->file = 'uploads/banner-images/' . $filename;
+            $why->image = 'uploads/banner-images/' . $filename;
         }
 
-        if ($banner->save()) {
+        if ($why->save()) {
             return response()->json([
                 'type' => 'success',
-                'message' => 'Banner updated successfully.',
+                'message' => 'Why updated successfully.',
             ]);
         } else {
             return response()->json([
@@ -131,19 +142,19 @@ class WhyController extends Controller
             ]);
         }
 
-        $banner = Banner::find($request->id);
-        if ($banner) {
-            if ($banner->file && file_exists(public_path($banner->file))) {
-                unlink(public_path($banner->file));
+        $why = Why::find($request->id);
+        if ($why) {
+            if ($why->image && file_exists(public_path($why->image))) {
+                unlink(public_path($why->image));
             }
 
-            if ($banner->delete()) {
+            if ($why->delete()) {
                 return response()->json([
                     'type' => 'success',
-                    'message' => 'Banner deleted successfully.',
+                    'message' => 'Why deleted successfully.',
                 ]);
             } else {
-                return redirect()->route('admin.home.banner')->with('error', 'Something went wrong.');
+                return redirect()->route('admin.about-us.why')->with('error', 'Something went wrong.');
             }
         } else {
             return json_encode(['error' => 'Menu not found.']);

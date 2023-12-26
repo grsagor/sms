@@ -19,6 +19,20 @@
                     <div class="col-sm-12 tab-content" id="v-pills-tabContent">
 
                         <div class="step step_1 tab-pane fade create-artist">
+                            <div class="form-group mb-2">
+                                <select name="type" class="form-control type" id="type" required>
+                                    <option value="">-- Select Type --</option>
+                                    <option value="physics_lab">Physics Lab</option>
+                                    <option value="chemistry_lab">Chemistry Lab</option>
+                                    <option value="biology_lab">Biology Lab</option>
+                                    <option value="ict_lab">ICT Lab</option>
+                                    <option value="library">Library</option>
+                                    <option value="multimedia_classroom">Multi-Media Classroom</option>
+                                    <option value="qip_sms_service">QIP SMS Service</option>
+                                    <option value="common_room">Common Room</option>
+                                    <option value="prayer_room">Prayer Room</option>
+                                </select>
+                            </div>
                             <div class="d-flex w-100 gap-2 mb-1">
                                 <div class="form-group mb-1 w-100">
                                     <input type="file" class="form-control"
@@ -54,6 +68,17 @@
 
 {{-- edit modal  --}}
 <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+
+{{-- add text modal  --}}
+<div class="modal fade" id="updateSettingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Backend\Administrations;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\GoverningBody;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class GoverningbodyController extends Controller
 {
@@ -13,12 +16,12 @@ class GoverningbodyController extends Controller
 
     public function getList()
     {
-        $data = Banner::all();
+        $data = GoverningBody::all();
 
         return DataTables::of($data)
 
-            ->editColumn('file', function ($row) {
-                $images = $row->file;
+            ->editColumn('image', function ($row) {
+                $images = $row->image;
                 return '<a href="'.asset($images).'" target="_blank"><img class="" width="50px" height="50px" src="'.asset($images).'" alt="profile image"></a>';
             })
 
@@ -32,7 +35,7 @@ class GoverningbodyController extends Controller
                 }
                 return $btn;
             })
-            ->rawColumns(['file', 'action'])->make(true);
+            ->rawColumns(['image', 'action'])->make(true);
     }
 
     public function store(Request $request)
@@ -49,19 +52,22 @@ class GoverningbodyController extends Controller
         ];
         $validator = $request->validate($rules);
 
-        $banner = new Banner();
+        $governing_body = new GoverningBody();
+
+        $governing_body->name = $request->name;
+        $governing_body->designation = $request->designation;
 
         if ($request->hasFile('file')) {
             $image = $request->file('file');
             $filename = time() . uniqid() . $image->getClientOriginalName();
             $image->move(public_path('uploads/banner-images'), $filename);
-            $banner->file = 'uploads/banner-images/' . $filename;
+            $governing_body->image = 'uploads/banner-images/' . $filename;
         }
 
-        if ($banner->save()) {
+        if ($governing_body->save()) {
             return response()->json([
                 'type' => 'success',
-                'message' => 'Banner created successfully.',
+                'message' => 'Governing body created successfully.',
             ]);
         } else {
             return response()->json([
@@ -73,13 +79,13 @@ class GoverningbodyController extends Controller
 
     public function edit(Request $request)
     {
-        $banner = Banner::find($request->id);
+        $governing_body = GoverningBody::find($request->id);
 
         $data = [
-            'banner' => $banner,
+            'governing_body' => $governing_body,
         ];
 
-        return view('backend.pages.home.banner.edit', $data);
+        return view('backend.pages.administrations.governing-body.edit', $data);
     }
 
     public function update(Request $request)
@@ -92,27 +98,29 @@ class GoverningbodyController extends Controller
         }
         $requestData = $request->all();
         $rules = [
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
 
         $validator = $request->validate($rules);
-        $banner = Banner::find($request->id);
+        $governing_body = GoverningBody::find($request->id);
+
+        $governing_body->name = $request->name;
+        $governing_body->designation = $request->designation;
 
         if ($request->hasFile('file')) {
-            if ($banner->file && file_exists(public_path($banner->file))) {
-                unlink(public_path($banner->file));
+            if ($governing_body->image && file_exists(public_path($governing_body->image))) {
+                unlink(public_path($governing_body->image));
             }
 
             $image = $request->file('file');
             $filename = time() . uniqid() . $image->getClientOriginalName();
             $image->move(public_path('uploads/banner-images'), $filename);
-            $banner->file = 'uploads/banner-images/' . $filename;
+            $governing_body->image = 'uploads/banner-images/' . $filename;
         }
 
-        if ($banner->save()) {
+        if ($governing_body->save()) {
             return response()->json([
                 'type' => 'success',
-                'message' => 'Banner updated successfully.',
+                'message' => 'Governing body updated successfully.',
             ]);
         } else {
             return response()->json([
@@ -131,19 +139,19 @@ class GoverningbodyController extends Controller
             ]);
         }
 
-        $banner = Banner::find($request->id);
-        if ($banner) {
-            if ($banner->file && file_exists(public_path($banner->file))) {
-                unlink(public_path($banner->file));
+        $governing_body = GoverningBody::find($request->id);
+        if ($governing_body) {
+            if ($governing_body->image && file_exists(public_path($governing_body->image))) {
+                unlink(public_path($governing_body->image));
             }
 
-            if ($banner->delete()) {
+            if ($governing_body->delete()) {
                 return response()->json([
                     'type' => 'success',
-                    'message' => 'Banner deleted successfully.',
+                    'message' => 'Governing body deleted successfully.',
                 ]);
             } else {
-                return redirect()->route('admin.home.banner')->with('error', 'Something went wrong.');
+                return redirect()->route('admin.administrations.governing-body')->with('error', 'Something went wrong.');
             }
         } else {
             return json_encode(['error' => 'Menu not found.']);

@@ -47,7 +47,7 @@
                             <h5 class="m-0">Introduction Member List</h5>
                         </div>
                         @if (Helper::hasRight('menu.create'))
-                                <button type="button" class="btn btn-primary" id="changeTextBtn"
+                                <button type="button" class="btn btn-primary settingUpdateOpenModalBtn"
                                 data-key="application_introduction"><i class="fa-solid fa-plus"></i>
                                     Change the text</button>
                         @endif
@@ -56,7 +56,7 @@
             </div>
             <div class="card-body">
                 <p id="setting-text-container">
-                    {{ Helper::getSettings('application_introduction') ? Helper::getSettings('application_introduction') : 'No text added.' }}
+                    {!! nl2br(Helper::getSettings('application_introduction') ? Helper::getSettings('application_introduction') : 'No text added.') !!}
                 </p>
             </div>
         </div>
@@ -171,7 +171,7 @@
                 })
             });
 
-            $(document).on('click', '#changeTextBtn', function(e) {
+            $(document).on('click', '.settingUpdateOpenModalBtn', function(e) {
                 let key = $(this).attr('data-key');
                 $.ajax({
                     url: "{{ route('admin.setting.update.modal') }}",
@@ -189,7 +189,7 @@
                 e.preventDefault();
                 let go_next_step = true;
                 if ($(this).attr('data-check-area') && $(this).attr('data-check-area').trim() !== '') {
-                    go_next_step = check_validation_Form('#editModal .' + $(this).attr('data-check-area'));
+                    go_next_step = check_validation_Form('#updateSettingModal .' + $(this).attr('data-check-area'));
                 }
                 if (go_next_step == true) {
                     let form = document.getElementById('updateSettingModalForm');

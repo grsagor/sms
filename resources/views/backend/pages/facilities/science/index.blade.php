@@ -1,23 +1,23 @@
 @extends('backend.layout.app')
-@section('title', 'Banner | ' . Helper::getSettings('application_name') ?? 'ABM')
+@section('title', 'Science Lab | ' . Helper::getSettings('application_name') ?? 'ABM')
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/vendor/tagsinput/tagsinput.css') }}">
 @endsection
 @section('content')
     <div class="container-fluid px-4">
-        <h4 class="mt-2">Banner Management</h4>
+        <h4 class="mt-2">Science Lab Management</h4>
 
         <div class="card my-2">
             <div class="card-header">
                 <div class="row ">
                     <div class="col-12 d-flex justify-content-between">
                         <div class="d-flex align-items-center">
-                            <h5 class="m-0">Banner List</h5>
+                            <h5 class="m-0">Science Lab Image List</h5>
                         </div>
                         @if (Helper::hasRight('menu.create'))
                             <button type="button" class="btn btn-primary btn-create-user create_form_btn"
                                 data-bs-toggle="modal" data-bs-target="#createModal"><i class="fa-solid fa-plus"></i>
-                                Add</button>
+                                Add Image</button>
                         @endif
                     </div>
                 </div>
@@ -27,6 +27,7 @@
                     <thead>
                         <tr>
                             <th>Image</th>
+                            <th>Type</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -36,8 +37,207 @@
                 </table>
             </div>
         </div>
+
+        <div class="card my-2">
+            <div class="card-header">
+                <div class="row ">
+                    <div class="col-12 d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <h5 class="m-0">Physics Lab</h5>
+                        </div>
+                        @if (Helper::hasRight('menu.create'))
+                                <button type="button" class="btn btn-primary settingUpdateOpenModalBtn"
+                                data-key="application_physics_lab"><i class="fa-solid fa-plus"></i>
+                                    Change the text</button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p id="setting-text-container">
+                    {!! nl2br(Helper::getSettings('application_physics_lab') ? Helper::getSettings('application_physics_lab') : 'No text added.') !!}
+                </p>
+            </div>
+        </div>
+        
+        <div class="card my-2">
+            <div class="card-header">
+                <div class="row ">
+                    <div class="col-12 d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <h5 class="m-0">Chemistry Lab</h5>
+                        </div>
+                        @if (Helper::hasRight('menu.create'))
+                                <button type="button" class="btn btn-primary settingUpdateOpenModalBtn"
+                                data-key="application_chemistry_lab"><i class="fa-solid fa-plus"></i>
+                                    Change the text</button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p id="setting-text-container">
+                    {!! nl2br(Helper::getSettings('application_chemistry_lab') ? Helper::getSettings('application_chemistry_lab') : 'No text added.') !!}
+                </p>
+            </div>
+        </div>
+
+        <div class="card my-2">
+            <div class="card-header">
+                <div class="row ">
+                    <div class="col-12 d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <h5 class="m-0">Biology Lab</h5>
+                        </div>
+                        @if (Helper::hasRight('menu.create'))
+                                <button type="button" class="btn btn-primary settingUpdateOpenModalBtn"
+                                data-key="application_biology_lab"><i class="fa-solid fa-plus"></i>
+                                    Change the text</button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p id="setting-text-container">
+                    {!! nl2br(Helper::getSettings('application_biology_lab') ? Helper::getSettings('application_biology_lab') : 'No text added.') !!}
+                </p>
+            </div>
+        </div>
+
+        <div class="card my-2">
+            <div class="card-header">
+                <div class="row ">
+                    <div class="col-12 d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <h5 class="m-0">ICT Lab</h5>
+                        </div>
+                        @if (Helper::hasRight('menu.create'))
+                                <button type="button" class="btn btn-primary settingUpdateOpenModalBtn"
+                                data-key="application_ict_lab"><i class="fa-solid fa-plus"></i>
+                                    Change the text</button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p id="setting-text-container">
+                    {!! nl2br(Helper::getSettings('application_ict_lab') ? Helper::getSettings('application_ict_lab') : 'No text added.') !!}
+                </p>
+            </div>
+        </div>
+
+        <div class="card my-2">
+            <div class="card-header">
+                <div class="row ">
+                    <div class="col-12 d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <h5 class="m-0">Library</h5>
+                        </div>
+                        @if (Helper::hasRight('menu.create'))
+                                <button type="button" class="btn btn-primary settingUpdateOpenModalBtn"
+                                data-key="application_library"><i class="fa-solid fa-plus"></i>
+                                    Change the text</button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p id="setting-text-container">
+                    {!! nl2br(Helper::getSettings('application_library') ? Helper::getSettings('application_library') : 'No text added.') !!}
+                </p>
+            </div>
+        </div>
+
+        <div class="card my-2">
+            <div class="card-header">
+                <div class="row ">
+                    <div class="col-12 d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <h5 class="m-0">Multi-Media Classroom</h5>
+                        </div>
+                        @if (Helper::hasRight('menu.create'))
+                                <button type="button" class="btn btn-primary settingUpdateOpenModalBtn"
+                                data-key="application_multimedia_classroom"><i class="fa-solid fa-plus"></i>
+                                    Change the text</button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p id="setting-text-container">
+                    {!! nl2br(Helper::getSettings('application_multimedia_classroom') ? Helper::getSettings('application_multimedia_classroom') : 'No text added.') !!}
+                </p>
+            </div>
+        </div>
+
+        <div class="card my-2">
+            <div class="card-header">
+                <div class="row ">
+                    <div class="col-12 d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <h5 class="m-0">QIP SMS Service</h5>
+                        </div>
+                        @if (Helper::hasRight('menu.create'))
+                                <button type="button" class="btn btn-primary settingUpdateOpenModalBtn"
+                                data-key="application_qip_sms_service"><i class="fa-solid fa-plus"></i>
+                                    Change the text</button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p id="setting-text-container">
+                    {!! nl2br(Helper::getSettings('application_qip_sms_service') ? Helper::getSettings('application_qip_sms_service') : 'No text added.') !!}
+                </p>
+            </div>
+        </div>
+
+        <div class="card my-2">
+            <div class="card-header">
+                <div class="row ">
+                    <div class="col-12 d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <h5 class="m-0">Common Room</h5>
+                        </div>
+                        @if (Helper::hasRight('menu.create'))
+                                <button type="button" class="btn btn-primary settingUpdateOpenModalBtn"
+                                data-key="application_common_room"><i class="fa-solid fa-plus"></i>
+                                    Change the text</button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p id="setting-text-container">
+                    {!! nl2br(Helper::getSettings('application_common_room') ? Helper::getSettings('application_common_room') : 'No text added.') !!}
+                </p>
+            </div>
+        </div>
+
+        <div class="card my-2">
+            <div class="card-header">
+                <div class="row ">
+                    <div class="col-12 d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <h5 class="m-0">Prayer Room</h5>
+                        </div>
+                        @if (Helper::hasRight('menu.create'))
+                                <button type="button" class="btn btn-primary settingUpdateOpenModalBtn"
+                                data-key="application_prayer_room"><i class="fa-solid fa-plus"></i>
+                                    Change the text</button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p id="setting-text-container">
+                    {!! nl2br(Helper::getSettings('application_prayer_room') ? Helper::getSettings('application_prayer_room') : 'No text added.') !!}
+                </p>
+            </div>
+        </div>
+
     </div>
-    @include('backend.pages.home.banner.modal')
+    @include('backend.pages.facilities.science.modal')
     @push('footer')
         <script src="{{ asset('assets/vendor/tagsinput/tagsinput.js') }}"></script>
         <script type="text/javascript">
@@ -47,7 +247,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('admin.home.banner.get.list') }}",
+                        url: "{{ route('admin.facilities.science.get.list') }}",
                         type: 'GET',
                     },
                     aLengthMenu: [
@@ -62,6 +262,10 @@
                         {
                             data: 'file',
                             name: 'file'
+                        },
+                        {
+                            data: 'type',
+                            name: 'type'
                         },
                         {
                             data: 'action',
@@ -89,7 +293,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ route('admin.home.banner.store') }}",
+                        url: "{{ route('admin.facilities.science.store') }}",
                         type: "POST",
                         data: formData,
                         processData: false,
@@ -127,7 +331,7 @@
                 e.preventDefault();
                 let id = $(this).attr('data-id');
                 $.ajax({
-                    url: "{{ route('admin.home.banner.edit') }}",
+                    url: "{{ route('admin.facilities.science.edit') }}",
                     type: "GET",
                     data: {
                         id: id
@@ -139,6 +343,65 @@
                     }
                 })
             });
+
+            $(document).on('click', '.settingUpdateOpenModalBtn', function(e) {
+                let key = $(this).attr('data-key');
+                $.ajax({
+                    url: "{{ route('admin.setting.update.modal') }}",
+                    type: "GET",
+                    data: { key: key },
+                    dataType: "html",
+                    success: function(html) {
+                        $('#updateSettingModal .modal-content').html(html);
+                        $('#updateSettingModal').modal('show');
+                    }
+                })
+            });
+
+            $(document).on('click', '#updateSettingFromModalBtn', function(e) {
+                e.preventDefault();
+                let go_next_step = true;
+                if ($(this).attr('data-check-area') && $(this).attr('data-check-area').trim() !== '') {
+                    go_next_step = check_validation_Form('#updateSettingModal .' + $(this).attr('data-check-area'));
+                }
+                if (go_next_step == true) {
+                    let form = document.getElementById('updateSettingModalForm');
+                    var formData = new FormData(form);
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: "{{ route('admin.setting.update.from.modal') }}",
+                        type: "POST",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            let heading = response.type.charAt(0).toUpperCase() + response.type.slice(1);
+                            $.toast({
+                                heading: heading,
+                                text: response.message,
+                                position: 'top-center',
+                                icon: response.type
+                            })
+                            $('#setting-text-container').text(response.val);
+                            $('#updateSettingModal').modal('hide');
+                        },
+                        error: function(xhr) {
+
+                            let errorMessage = '';
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                errorMessage += ('' + value + '<br>');
+                            });
+                            $('#updateSettingModalForm .server_side_error').empty();
+                            $('#updateSettingModalForm .server_side_error').html(
+                                '<div class="alert alert-danger" role="alert">' + errorMessage +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+                            );
+                        },
+                    })
+                }
+            })
 
             $(document).on('click', '#editPartnerBtn', function(e) {
                 e.preventDefault();
@@ -153,7 +416,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ route('admin.home.banner.update') }}",
+                        url: "{{ route('admin.facilities.science.update') }}",
                         type: "POST",
                         data: formData,
                         processData: false,
@@ -200,7 +463,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('admin.home.banner.delete') }}",
+                            url: "{{ route('admin.facilities.science.delete') }}",
                             type: "GET",
                             data: {
                                 id: id

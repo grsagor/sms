@@ -19,6 +19,20 @@
                     <div class="col-sm-12 tab-content" id="v-pills-tabContent">
 
                         <div class="step step_1 tab-pane fade create-artist">
+                            <div class="d-flex gap-1 mb-1 w-100">
+                                <div class="form-floating mb-1 w-100">
+                                    <input type="text" class="form-control" placeholder="Title"
+                                        value="{{ old('name') }}" name="name">
+                                    <label for="">Name<span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-1 mb-1 w-100">
+                                <div class="form-floating mb-1 w-100">
+                                    <input type="text" class="form-control" placeholder="Title"
+                                        value="{{ old('designation') }}" name="designation">
+                                    <label for="">Designation<span class="text-danger">*</span></label>
+                                </div>
+                            </div>
                             <div class="d-flex w-100 gap-2 mb-1">
                                 <div class="form-group mb-1 w-100">
                                     <input type="file" class="form-control"

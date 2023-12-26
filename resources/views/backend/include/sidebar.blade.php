@@ -132,33 +132,39 @@
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-gear"></i></div> Home
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <div class="collapse @if (Route::is('admin.home.statistics') ||
-                        Route::is('admin.home.banner') ||
-                        Route::is('admin.home.introduction')) show @endif" id="homeNav"
+                <div class="collapse @if (Route::is('admin.home.statistics') || Route::is('admin.home.banner') || Route::is('admin.home.introduction')) show @endif" id="homeNav"
                     aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav down">
-                        <a class="nav-link {{ Route::is('admin.home.banner') ? 'active' : '' }}" href="{{ route('admin.home.banner') }}"><i class="fa-solid fa-angles-right ikon"></i> Banner Setting </a>
-                        <a class="nav-link {{ Route::is('admin.home.introduction') ? 'active' : '' }}" href="{{ route('admin.home.introduction') }}"><i class="fa-solid fa-angles-right ikon"></i> Introduction</a>
-                        <a class="nav-link {{ Route::is('admin.home.statistics') ? 'active' : '' }}" href="{{ route('admin.home.statistics') }}"><i class="fa-solid fa-angles-right ikon"></i> Statistics</a>
+                        <a class="nav-link {{ Route::is('admin.home.banner') ? 'active' : '' }}"
+                            href="{{ route('admin.home.banner') }}"><i class="fa-solid fa-angles-right ikon"></i>
+                            Banner Setting </a>
+                        <a class="nav-link {{ Route::is('admin.home.introduction') ? 'active' : '' }}"
+                            href="{{ route('admin.home.introduction') }}"><i class="fa-solid fa-angles-right ikon"></i>
+                            Introduction</a>
+                        <a class="nav-link {{ Route::is('admin.home.statistics') ? 'active' : '' }}"
+                            href="{{ route('admin.home.statistics') }}"><i class="fa-solid fa-angles-right ikon"></i>
+                            Statistics</a>
                     </nav>
                 </div>
 
                 <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#aboutusNav"
-                    aria-expanded="@if (Route::is('admin.setting.general') ||
-                            Route::is('admin.setting.static.content') ||
-                            Route::is('admin.about.us.why')) true @else false @endif"
+                    aria-expanded="@if (Route::is('admin.setting.general') || Route::is('admin.setting.static.content') || Route::is('admin.about.us.why')) true @else false @endif"
                     aria-controls="collapseLayouts">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-gear"></i></div> About Us
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <div class="collapse @if (Route::is('admin.about.us.glance') ||
-                        Route::is('admin.about.us.history') ||
-                        Route::is('admin.about.us.why')) show @endif" id="aboutusNav"
+                <div class="collapse @if (Route::is('admin.about.us.glance') || Route::is('admin.about.us.history') || Route::is('admin.about.us.why')) show @endif" id="aboutusNav"
                     aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav down">
-                        <a class="nav-link {{ Route::is('admin.about.us.glance') ? 'active' : '' }}" href="{{ route('admin.about.us.glance') }}"><i class="fa-solid fa-angles-right ikon"></i> Glance </a>
-                        <a class="nav-link {{ Route::is('admin.about.us.history') ? 'active' : '' }}" href="{{ route('admin.about.us.history') }}"><i class="fa-solid fa-angles-right ikon"></i> History</a>
-                        <a class="nav-link {{ Route::is('admin.about.us.why') ? 'active' : '' }}" href="{{ route('admin.about.us.why') }}"><i class="fa-solid fa-angles-right ikon"></i> Why</a>
+                        <a class="nav-link {{ Route::is('admin.about.us.glance') ? 'active' : '' }}"
+                            href="{{ route('admin.about.us.glance') }}"><i class="fa-solid fa-angles-right ikon"></i>
+                            Glance </a>
+                        <a class="nav-link {{ Route::is('admin.about.us.history') ? 'active' : '' }}"
+                            href="{{ route('admin.about.us.history') }}"><i
+                                class="fa-solid fa-angles-right ikon"></i> History</a>
+                        <a class="nav-link {{ Route::is('admin.about.us.why') ? 'active' : '' }}"
+                            href="{{ route('admin.about.us.why') }}"><i class="fa-solid fa-angles-right ikon"></i>
+                            Why</a>
                     </nav>
                 </div>
 
@@ -177,27 +183,36 @@
                         Route::is('admin.administrations.teaching.staff')) show @endif" id="administrationNav"
                     aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav down">
-                        <a class="nav-link {{ Route::is('admin.administrations.governing.body') ? 'active' : '' }}" href="{{ route('admin.administrations.governing.body') }}"><i class="fa-solid fa-angles-right ikon"></i> Governing Body </a>
-                        <a class="nav-link {{ Route::is('admin.administrations.principal.message') ? 'active' : '' }}" href="{{ route('admin.administrations.principal.message') }}"><i class="fa-solid fa-angles-right ikon"></i> Principal's Message</a>
-                        <a class="nav-link {{ Route::is('admin.administrations.teaching.staff') ? 'active' : '' }}" href="{{ route('admin.administrations.teaching.staff') }}"><i class="fa-solid fa-angles-right ikon"></i> Teaching Staff</a>
+                        <a class="nav-link {{ Route::is('admin.administrations.governing.body') ? 'active' : '' }}"
+                            href="{{ route('admin.administrations.governing.body') }}"><i
+                                class="fa-solid fa-angles-right ikon"></i> Governing Body </a>
+                        {{-- <a class="nav-link {{ Route::is('admin.administrations.principal.message') ? 'active' : '' }}"
+                            href="{{ route('admin.administrations.principal.message') }}"><i
+                                class="fa-solid fa-angles-right ikon"></i> Principal's Message</a> --}}
+                        <a class="nav-link {{ Route::is('admin.administrations.teaching.staff') ? 'active' : '' }}"
+                            href="{{ route('admin.administrations.teaching.staff') }}"><i
+                                class="fa-solid fa-angles-right ikon"></i> Teaching Staff & Principal's Message</a>
                     </nav>
                 </div>
 
                 <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#academicsNav"
-                    aria-expanded="@if (Route::is('admin.setting.general') ||
-                            Route::is('admin.resource')) true @else false @endif"
+                    aria-expanded="@if (Route::is('admin.setting.general') || Route::is('admin.resource')) true @else false @endif"
                     aria-controls="collapseLayouts">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-gear"></i></div> Academics
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <div class="collapse @if (Route::is('admin.academics.results') ||
-                        Route::is('admin.academics.rules') ||
-                        Route::is('admin.academics.dress')) show @endif" id="academicsNav"
+                <div class="collapse @if (Route::is('admin.academics.results') || Route::is('admin.academics.rules') || Route::is('admin.academics.dress')) show @endif" id="academicsNav"
                     aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav down">
-                        <a class="nav-link {{ Route::is('admin.academics.results') ? 'active' : '' }}" href="{{ route('admin.academics.results') }}"><i class="fa-solid fa-angles-right ikon"></i> Results </a>
-                        <a class="nav-link {{ Route::is('admin.academics.rules') ? 'active' : '' }}" href="{{ route('admin.academics.rules') }}"><i class="fa-solid fa-angles-right ikon"></i> Rules & Regulations</a>
-                        <a class="nav-link {{ Route::is('admin.academics.dress') ? 'active' : '' }}" href="{{ route('admin.academics.dress') }}"><i class="fa-solid fa-angles-right ikon"></i> Dress Code</a>
+                        <a class="nav-link {{ Route::is('admin.academics.results') ? 'active' : '' }}"
+                            href="{{ route('admin.academics.results') }}"><i
+                                class="fa-solid fa-angles-right ikon"></i> Results </a>
+                        <a class="nav-link {{ Route::is('admin.academics.rules') ? 'active' : '' }}"
+                            href="{{ route('admin.academics.rules') }}"><i class="fa-solid fa-angles-right ikon"></i>
+                            Rules & Regulations</a>
+                        <a class="nav-link {{ Route::is('admin.academics.dress') ? 'active' : '' }}"
+                            href="{{ route('admin.academics.dress') }}"><i class="fa-solid fa-angles-right ikon"></i>
+                            Dress Code</a>
                     </nav>
                 </div>
 
@@ -210,29 +225,19 @@
                 <div class="collapse @if (Route::is('admin.admission.info')) show @endif" id="admissionNav"
                     aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav down">
-                        <a class="nav-link {{ Route::is('admin.admission.info') ? 'active' : '' }}" href="{{ route('admin.admission.info') }}"><i class="fa-solid fa-angles-right ikon"></i> Admission Info </a>
+                        <a class="nav-link {{ Route::is('admin.admission.info') ? 'active' : '' }}"
+                            href="{{ route('admin.admission.info') }}"><i class="fa-solid fa-angles-right ikon"></i>
+                            Admission Info </a>
                     </nav>
                 </div>
 
-                <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#facilitiesNav"
-                    aria-expanded="@if (Route::is('admin.facilities.science') ||
-                    Route::is('admin.facilities.ict') ||
-                    Route::is('admin.facilities.library') ||
-                    Route::is('admin.facilities.multimedia') ||
-                    Route::is('admin.facilities.sms') ||
-                    Route::is('admin.facilities.commonroom') ||
-                    Route::is('admin.facilities.prayerroom')) true @else false @endif"
+                {{-- <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#facilitiesNav"
+                    aria-expanded="@if (Route::is('admin.facilities.science') || Route::is('admin.facilities.ict') || Route::is('admin.facilities.library') || Route::is('admin.facilities.multimedia') || Route::is('admin.facilities.sms') || Route::is('admin.facilities.commonroom') || Route::is('admin.facilities.prayerroom')) true @else false @endif"
                     aria-controls="collapseLayouts">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-gear"></i></div> Facilities
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>                                                                                                                                        
                 </a>
-                <div class="collapse @if (Route::is('admin.facilities.science') ||
-                Route::is('admin.facilities.ict') ||
-                Route::is('admin.facilities.library') ||
-                Route::is('admin.facilities.multimedia') ||
-                Route::is('admin.facilities.sms') ||
-                Route::is('admin.facilities.commonroom') ||
-                Route::is('admin.facilities.prayerroom')) show @endif" id="facilitiesNav"
+                <div class="collapse @if (Route::is('admin.facilities.science') || Route::is('admin.facilities.ict') || Route::is('admin.facilities.library') || Route::is('admin.facilities.multimedia') || Route::is('admin.facilities.sms') || Route::is('admin.facilities.commonroom') || Route::is('admin.facilities.prayerroom')) show @endif" id="facilitiesNav"
                     aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav down">
                         <a class="nav-link {{ Route::is('admin.facilities.science') ? 'active' : '' }}" href="{{ route('admin.facilities.science') }}"><i class="fa-solid fa-angles-right ikon"></i> Science Lab </a>
@@ -243,21 +248,28 @@
                         <a class="nav-link {{ Route::is('admin.facilities.commonroom') ? 'active' : '' }}" href="{{ route('admin.facilities.commonroom') }}"><i class="fa-solid fa-angles-right ikon"></i> Common Room </a>
                         <a class="nav-link {{ Route::is('admin.facilities.prayerroom') ? 'active' : '' }}" href="{{ route('admin.facilities.prayerroom') }}"><i class="fa-solid fa-angles-right ikon"></i> Prayer Room </a>
                     </nav>
-                </div>
+                </div> --}}
+
+                <a class="nav-link {{ Route::is('admin.facilities') ? 'active' : '' }}"
+                    href="{{ route('admin.facilities') }}">
+                    <div class="sb-nav-link-icon"><i class="fa-regular fa-calendar-days"></i></div> Facilities
+                </a>
 
                 <a class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#galleryNav"
-                    aria-expanded="@if (Route::is('admin.setting.general') ||
-                            Route::is('admin.resource')) true @else false @endif"
+                    aria-expanded="@if (Route::is('admin.setting.general') || Route::is('admin.resource')) true @else false @endif"
                     aria-controls="collapseLayouts">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-gear"></i></div> Gallery
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <div class="collapse @if (Route::is('admin.gallery.photo') ||
-                        Route::is('admin.gallery.video')) show @endif" id="galleryNav"
+                <div class="collapse @if (Route::is('admin.gallery.photo') || Route::is('admin.gallery.video')) show @endif" id="galleryNav"
                     aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav down">
-                        <a class="nav-link {{ Route::is('admin.gallery.photo') ? 'active' : '' }}" href="{{ route('admin.gallery.photo') }}"><i class="fa-solid fa-angles-right ikon"></i> Photo Gallery </a>
-                        <a class="nav-link {{ Route::is('admin.gallery.video') ? 'active' : '' }}" href="{{ route('admin.gallery.video') }}"><i class="fa-solid fa-angles-right ikon"></i> Video gallery </a>
+                        <a class="nav-link {{ Route::is('admin.gallery.photo') ? 'active' : '' }}"
+                            href="{{ route('admin.gallery.photo') }}"><i class="fa-solid fa-angles-right ikon"></i>
+                            Photo Gallery </a>
+                        <a class="nav-link {{ Route::is('admin.gallery.video') ? 'active' : '' }}"
+                            href="{{ route('admin.gallery.video') }}"><i class="fa-solid fa-angles-right ikon"></i>
+                            Video gallery </a>
                     </nav>
                 </div>
 
@@ -265,7 +277,7 @@
                     href="{{ route('admin.notice') }}">
                     <div class="sb-nav-link-icon"><i class="fa-regular fa-calendar-days"></i></div> Notice Management
                 </a>
-                
+
                 <a class="nav-link {{ Route::is('admin.contact') ? 'active' : '' }}"
                     href="{{ route('admin.contact') }}">
                     <div class="sb-nav-link-icon"><i class="fa-regular fa-calendar-days"></i></div> Cotnact Management

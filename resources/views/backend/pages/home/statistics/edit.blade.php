@@ -1,6 +1,5 @@
 <form id="partnerEditForm" method="post" enctype="multipart/form-data">
     @csrf
-    <input type="hidden" name="id" value="{{ $banner->id }}">
     <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Edit Banner</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
@@ -15,14 +14,25 @@
         </div>
         <div class="col-sm-12 tab-content" id="v-pills-tabContent">
             <div class="step step_1 tab-pane fade show active create-artist">
-                <div class="d-flex w-100 gap-2 mb-1">
-                    <div class="form-group mb-1 w-100">
-                        <input type="file" class="form-control"
-                            onchange="previewFile('editModal #profile_image', 'editModal .profile_image')"
-                            name="file" id="profile_image">
-                        <img src="{{ $banner->file ? asset($banner->file) : asset('assets/img/no-img.jpg') }}" height="80px" width="100px"
-                            class="profile_image mt-1 border" alt="">
-                    </div>
+                <div class="form-floating mb-1 w-100">
+                    <input type="text" class="form-control" placeholder="Email" name="application_number_of_students" id="application_number_of_students"
+                        value="{{ Helper::getSettings('application_number_of_students') }}">
+                    <label for="application_number_of_students">Number of students</label>
+                </div>
+                <div class="form-floating mb-1 w-100">
+                    <input type="text" class="form-control" placeholder="Email" name="application_number_of_teachers" id="application_number_of_teachers"
+                        value="{{ Helper::getSettings('application_number_of_teachers') }}">
+                    <label for="application_number_of_teachers">Number of teachers</label>
+                </div>
+                <div class="form-floating mb-1 w-100">
+                    <input type="text" class="form-control" placeholder="Email" name="application_number_of_scholarships_students" id="application_number_of_scholarships_students"
+                        value="{{ Helper::getSettings('application_number_of_scholarships_students') }}">
+                    <label for="application_number_of_scholarships_students">Number of scholarships students</label>
+                </div>
+                <div class="form-floating mb-1 w-100">
+                    <input type="text" class="form-control" placeholder="Email" name="application_number_of_gpa5_students" id="application_number_of_gpa5_students"
+                        value="{{ Helper::getSettings('application_number_of_gpa5_students') }}">
+                    <label for="application_number_of_gpa5_students">Number of GPA-5 students</label>
                 </div>
             </div>
         </div>

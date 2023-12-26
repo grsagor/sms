@@ -2,24 +2,28 @@
 
 namespace App\Http\Controllers\Backend\Aboutus;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+use App\Models\File;
 
 class HistoryController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('backend.pages.about-us.history.index');
     }
 
     public function getList()
     {
-        $data = Banner::all();
+        $data = File::where('type', 'history')->get();
 
         return DataTables::of($data)
 
             ->editColumn('file', function ($row) {
                 $images = $row->file;
-                return '<a href="'.asset($images).'" target="_blank"><img class="" width="50px" height="50px" src="'.asset($images).'" alt="profile image"></a>';
+                return '<a href="' . asset($images) . '" target="_blank"><img class="" width="50px" height="50px" src="' . asset($images) . '" alt="profile image"></a>';
             })
 
             ->addColumn('action', function ($row) {
@@ -49,19 +53,20 @@ class HistoryController extends Controller
         ];
         $validator = $request->validate($rules);
 
-        $banner = new Banner();
+        $file = new File();
 
+        $file->type = 'history';
         if ($request->hasFile('file')) {
             $image = $request->file('file');
             $filename = time() . uniqid() . $image->getClientOriginalName();
-            $image->move(public_path('uploads/banner-images'), $filename);
-            $banner->file = 'uploads/banner-images/' . $filename;
+            $image->move(public_path('uploads/file-images'), $filename);
+            $file->file = 'uploads/file-images/' . $filename;
         }
 
-        if ($banner->save()) {
+        if ($file->save()) {
             return response()->json([
                 'type' => 'success',
-                'message' => 'Banner created successfully.',
+                'message' => 'History created successfully.',
             ]);
         } else {
             return response()->json([
@@ -73,13 +78,13 @@ class HistoryController extends Controller
 
     public function edit(Request $request)
     {
-        $banner = Banner::find($request->id);
+        $file = File::find($request->id);
 
         $data = [
-            'banner' => $banner,
+            'file' => $file,
         ];
 
-        return view('backend.pages.home.banner.edit', $data);
+        return view('backend.pages.about-us.history.edit', $data);
     }
 
     public function update(Request $request)
@@ -96,20 +101,20 @@ class HistoryController extends Controller
         ];
 
         $validator = $request->validate($rules);
-        $banner = Banner::find($request->id);
+        $file = File::find($request->id);
 
         if ($request->hasFile('file')) {
-            if ($banner->file && file_exists(public_path($banner->file))) {
-                unlink(public_path($banner->file));
+            if ($file->file && file_exists(public_path($file->file))) {
+                unlink(public_path($file->file));
             }
 
             $image = $request->file('file');
             $filename = time() . uniqid() . $image->getClientOriginalName();
-            $image->move(public_path('uploads/banner-images'), $filename);
-            $banner->file = 'uploads/banner-images/' . $filename;
+            $image->move(public_path('uploads/file-images'), $filename);
+            $file->file = 'uploads/file-images/' . $filename;
         }
 
-        if ($banner->save()) {
+        if ($file->save()) {
             return response()->json([
                 'type' => 'success',
                 'message' => 'Banner updated successfully.',
@@ -121,7 +126,7 @@ class HistoryController extends Controller
             ]);
         }
     }
-    
+
     public function delete(Request $request)
     {
         if (!Helper::hasRight('menu.delete')) {
@@ -131,22 +136,22 @@ class HistoryController extends Controller
             ]);
         }
 
-        $banner = Banner::find($request->id);
-        if ($banner) {
-            if ($banner->file && file_exists(public_path($banner->file))) {
-                unlink(public_path($banner->file));
+        $file = File::find($request->id);
+        if ($file) {
+            if ($file->file && file_exists(public_path($file->file))) {
+                unlink(public_path($file->file));
             }
 
-            if ($banner->delete()) {
+            if ($file->delete()) {
                 return response()->json([
                     'type' => 'success',
-                    'message' => 'Banner deleted successfully.',
+                    'message' => 'File deleted successfully.',
                 ]);
             } else {
-                return redirect()->route('admin.home.banner')->with('error', 'Something went wrong.');
+                return redirect()->route('admin.about.us.history')->with('error', 'Something went wrong.');
             }
         } else {
-            return json_encode(['error' => 'Menu not found.']);
+            return json_encode(['error' => 'File not found.']);
         }
     }
 }
