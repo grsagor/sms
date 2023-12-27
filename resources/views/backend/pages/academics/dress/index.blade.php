@@ -1,18 +1,18 @@
 @extends('backend.layout.app')
-@section('title', 'Banner | ' . Helper::getSettings('application_name') ?? 'ABM')
+@section('title', 'Dress Code | ' . Helper::getSettings('application_name') ?? 'ABM')
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/vendor/tagsinput/tagsinput.css') }}">
 @endsection
 @section('content')
     <div class="container-fluid px-4">
-        <h4 class="mt-2">Banner Management</h4>
+        <h4 class="mt-2">Dress Code Management</h4>
 
         <div class="card my-2">
             <div class="card-header">
                 <div class="row ">
                     <div class="col-12 d-flex justify-content-between">
                         <div class="d-flex align-items-center">
-                            <h5 class="m-0">Banner List</h5>
+                            <h5 class="m-0">Dress Code List</h5>
                         </div>
                         @if (Helper::hasRight('menu.create'))
                             <button type="button" class="btn btn-primary btn-create-user create_form_btn"
@@ -27,6 +27,7 @@
                     <thead>
                         <tr>
                             <th>Image</th>
+                            <th>Title</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -37,7 +38,7 @@
             </div>
         </div>
     </div>
-    @include('backend.pages.home.banner.modal')
+    @include('backend.pages.academics.dress.modal')
     @push('footer')
         <script src="{{ asset('assets/vendor/tagsinput/tagsinput.js') }}"></script>
         <script type="text/javascript">
@@ -47,7 +48,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('admin.home.banner.get.list') }}",
+                        url: "{{ route('admin.academics.dress.get.list') }}",
                         type: 'GET',
                     },
                     aLengthMenu: [
@@ -62,6 +63,10 @@
                         {
                             data: 'file',
                             name: 'file'
+                        },
+                        {
+                            data: 'title',
+                            name: 'title'
                         },
                         {
                             data: 'action',
@@ -89,7 +94,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ route('admin.home.banner.store') }}",
+                        url: "{{ route('admin.academics.dress.store') }}",
                         type: "POST",
                         data: formData,
                         processData: false,
@@ -127,7 +132,7 @@
                 e.preventDefault();
                 let id = $(this).attr('data-id');
                 $.ajax({
-                    url: "{{ route('admin.home.banner.edit') }}",
+                    url: "{{ route('admin.academics.dress.edit') }}",
                     type: "GET",
                     data: {
                         id: id
@@ -153,7 +158,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ route('admin.home.banner.update') }}",
+                        url: "{{ route('admin.academics.dress.update') }}",
                         type: "POST",
                         data: formData,
                         processData: false,
@@ -200,7 +205,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('admin.home.banner.delete') }}",
+                            url: "{{ route('admin.academics.dress.delete') }}",
                             type: "GET",
                             data: {
                                 id: id

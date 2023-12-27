@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Backend\Academics;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\Rule;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class RuleController extends Controller
 {
@@ -13,15 +16,9 @@ class RuleController extends Controller
 
     public function getList()
     {
-        $data = Banner::all();
+        $data = Rule::all();
 
         return DataTables::of($data)
-
-            ->editColumn('file', function ($row) {
-                $images = $row->file;
-                return '<a href="'.asset($images).'" target="_blank"><img class="" width="50px" height="50px" src="'.asset($images).'" alt="profile image"></a>';
-            })
-
             ->addColumn('action', function ($row) {
                 $btn = '';
                 if (Helper::hasRight('event.edit')) {
@@ -32,7 +29,7 @@ class RuleController extends Controller
                 }
                 return $btn;
             })
-            ->rawColumns(['file', 'action'])->make(true);
+            ->rawColumns(['action'])->make(true);
     }
 
     public function store(Request $request)
@@ -45,23 +42,18 @@ class RuleController extends Controller
         }
         $requestData = $request->all();
         $rules = [
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'rule' => 'required'
         ];
         $validator = $request->validate($rules);
 
-        $banner = new Banner();
+        $rule = new Rule();
 
-        if ($request->hasFile('file')) {
-            $image = $request->file('file');
-            $filename = time() . uniqid() . $image->getClientOriginalName();
-            $image->move(public_path('uploads/banner-images'), $filename);
-            $banner->file = 'uploads/banner-images/' . $filename;
-        }
+        $rule->rule = $request->rule;
 
-        if ($banner->save()) {
+        if ($rule->save()) {
             return response()->json([
                 'type' => 'success',
-                'message' => 'Banner created successfully.',
+                'message' => 'Rule created successfully.',
             ]);
         } else {
             return response()->json([
@@ -73,13 +65,13 @@ class RuleController extends Controller
 
     public function edit(Request $request)
     {
-        $banner = Banner::find($request->id);
+        $rule = Rule::find($request->id);
 
         $data = [
-            'banner' => $banner,
+            'rule' => $rule,
         ];
 
-        return view('backend.pages.home.banner.edit', $data);
+        return view('backend.pages.academics.rules.edit', $data);
     }
 
     public function update(Request $request)
@@ -92,27 +84,18 @@ class RuleController extends Controller
         }
         $requestData = $request->all();
         $rules = [
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'rule' => 'required'
         ];
 
         $validator = $request->validate($rules);
-        $banner = Banner::find($request->id);
+        $rule = Rule::find($request->id);
 
-        if ($request->hasFile('file')) {
-            if ($banner->file && file_exists(public_path($banner->file))) {
-                unlink(public_path($banner->file));
-            }
+        $rule->rule = $request->rule;
 
-            $image = $request->file('file');
-            $filename = time() . uniqid() . $image->getClientOriginalName();
-            $image->move(public_path('uploads/banner-images'), $filename);
-            $banner->file = 'uploads/banner-images/' . $filename;
-        }
-
-        if ($banner->save()) {
+        if ($rule->save()) {
             return response()->json([
                 'type' => 'success',
-                'message' => 'Banner updated successfully.',
+                'message' => 'Rule updated successfully.',
             ]);
         } else {
             return response()->json([
@@ -131,19 +114,15 @@ class RuleController extends Controller
             ]);
         }
 
-        $banner = Banner::find($request->id);
-        if ($banner) {
-            if ($banner->file && file_exists(public_path($banner->file))) {
-                unlink(public_path($banner->file));
-            }
-
-            if ($banner->delete()) {
+        $rule = Rule::find($request->id);
+        if ($rule) {
+            if ($rule->delete()) {
                 return response()->json([
                     'type' => 'success',
-                    'message' => 'Banner deleted successfully.',
+                    'message' => 'Rule deleted successfully.',
                 ]);
             } else {
-                return redirect()->route('admin.home.banner')->with('error', 'Something went wrong.');
+                return redirect()->route('admin.academics.rules')->with('error', 'Something went wrong.');
             }
         } else {
             return json_encode(['error' => 'Menu not found.']);

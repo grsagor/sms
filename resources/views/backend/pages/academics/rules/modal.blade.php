@@ -19,14 +19,10 @@
                     <div class="col-sm-12 tab-content" id="v-pills-tabContent">
 
                         <div class="step step_1 tab-pane fade create-artist">
-                            <div class="d-flex w-100 gap-2 mb-1">
-                                <div class="form-group mb-1 w-100">
-                                    <input type="file" class="form-control"
-                                        onchange="previewFile('createModal #profile_image', 'createModal .profile_image')"
-                                        name="file" id="profile_image" required>
-                                    <img src="{{ asset('assets/img/no-img.jpg') }}" height="80px" width="100px"
-                                        class="profile_image mt-1 border" alt="">
-                                </div>
+                            <div class="form-floating mb-1 w-100">
+                                <input type="text" class="form-control" placeholder="Email"
+                                    name="rule" value="{{ old('rule') }}" required>
+                                <label for="">Rule<span class="text-danger">*</span></label>
                             </div>
                         </div>
                     </div>

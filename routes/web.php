@@ -230,18 +230,33 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkAdmin'], function () {
         Route::group(['prefix' => '/results'], function () {
             Route::controller(ResultController::class)->group(function () {
                 Route::get('/', 'index')->name('admin.academics.results');
+                Route::get('/get/list', 'getList')->name('admin.academics.results.get.list');
+                Route::post('/store', 'store')->name('admin.academics.results.store');
+                Route::get('/edit', 'edit')->name('admin.academics.results.edit');
+                Route::post('/update', 'update')->name('admin.academics.results.update');
+                Route::get('/delete', 'delete')->name('admin.academics.results.delete');
             });
         });
 
         Route::group(['prefix' => '/rules'], function () {
             Route::controller(RuleController::class)->group(function () {
                 Route::get('/', 'index')->name('admin.academics.rules');
+                Route::get('/get/list', 'getList')->name('admin.academics.rules.get.list');
+                Route::post('/store', 'store')->name('admin.academics.rules.store');
+                Route::get('/edit', 'edit')->name('admin.academics.rules.edit');
+                Route::post('/update', 'update')->name('admin.academics.rules.update');
+                Route::get('/delete', 'delete')->name('admin.academics.rules.delete');
             });
         });
 
         Route::group(['prefix' => '/dress'], function () {
             Route::controller(DressController::class)->group(function () {
                 Route::get('/', 'index')->name('admin.academics.dress');
+                Route::get('/get/list', 'getList')->name('admin.academics.dress.get.list');
+                Route::post('/store', 'store')->name('admin.academics.dress.store');
+                Route::get('/edit', 'edit')->name('admin.academics.dress.edit');
+                Route::post('/update', 'update')->name('admin.academics.dress.update');
+                Route::get('/delete', 'delete')->name('admin.academics.dress.delete');
             });
         });
     });
@@ -258,6 +273,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkAdmin'], function () {
         Route::group(['prefix' => '/photo'], function () {
             Route::controller(PhotoController::class)->group(function () {
                 Route::get('/', 'index')->name('admin.gallery.photo');
+                Route::get('/get/list', 'getList')->name('admin.gallery.photo.get.list');
+                Route::post('/store', 'store')->name('admin.gallery.photo.store');
+                Route::get('/edit', 'edit')->name('admin.gallery.photo.edit');
+                Route::post('/update', 'update')->name('admin.gallery.photo.update');
+                Route::get('/delete', 'delete')->name('admin.gallery.photo.delete');
             });
         });
 

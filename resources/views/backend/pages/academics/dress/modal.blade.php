@@ -5,7 +5,7 @@
             <form action="" id="partnerCreateForm" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Banner</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Dress Code</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>
                     </button>
@@ -19,6 +19,11 @@
                     <div class="col-sm-12 tab-content" id="v-pills-tabContent">
 
                         <div class="step step_1 tab-pane fade create-artist">
+                            <div class="form-floating mb-1 w-100">
+                                <input type="text" class="form-control" placeholder="Email"
+                                    name="title" value="{{ old('title') }}" required>
+                                <label for="">Title<span class="text-danger">*</span></label>
+                            </div>
                             <div class="d-flex w-100 gap-2 mb-1">
                                 <div class="form-group mb-1 w-100">
                                     <input type="file" class="form-control"

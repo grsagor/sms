@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Backend\Academics;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\DressCode;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class DressController extends Controller
 {
@@ -13,7 +16,7 @@ class DressController extends Controller
 
     public function getList()
     {
-        $data = Banner::all();
+        $data = DressCode::all();
 
         return DataTables::of($data)
 
@@ -45,23 +48,26 @@ class DressController extends Controller
         }
         $requestData = $request->all();
         $rules = [
+            'title' => 'required',
             'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
         $validator = $request->validate($rules);
 
-        $banner = new Banner();
+        $dress_code = new DressCode();
+
+        $dress_code->title = $request->title;
 
         if ($request->hasFile('file')) {
             $image = $request->file('file');
             $filename = time() . uniqid() . $image->getClientOriginalName();
             $image->move(public_path('uploads/banner-images'), $filename);
-            $banner->file = 'uploads/banner-images/' . $filename;
+            $dress_code->file = 'uploads/banner-images/' . $filename;
         }
 
-        if ($banner->save()) {
+        if ($dress_code->save()) {
             return response()->json([
                 'type' => 'success',
-                'message' => 'Banner created successfully.',
+                'message' => 'Dress Code created successfully.',
             ]);
         } else {
             return response()->json([
@@ -73,13 +79,13 @@ class DressController extends Controller
 
     public function edit(Request $request)
     {
-        $banner = Banner::find($request->id);
+        $dress_code = DressCode::find($request->id);
 
         $data = [
-            'banner' => $banner,
+            'dress_code' => $dress_code,
         ];
 
-        return view('backend.pages.home.banner.edit', $data);
+        return view('backend.pages.academics.dress.edit', $data);
     }
 
     public function update(Request $request)
@@ -92,27 +98,29 @@ class DressController extends Controller
         }
         $requestData = $request->all();
         $rules = [
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'title' => 'required',
         ];
 
         $validator = $request->validate($rules);
-        $banner = Banner::find($request->id);
+        $dress_code = DressCode::find($request->id);
+
+        $dress_code->title = $request->title;
 
         if ($request->hasFile('file')) {
-            if ($banner->file && file_exists(public_path($banner->file))) {
-                unlink(public_path($banner->file));
+            if ($dress_code->file && file_exists(public_path($dress_code->file))) {
+                unlink(public_path($dress_code->file));
             }
 
             $image = $request->file('file');
             $filename = time() . uniqid() . $image->getClientOriginalName();
             $image->move(public_path('uploads/banner-images'), $filename);
-            $banner->file = 'uploads/banner-images/' . $filename;
+            $dress_code->file = 'uploads/banner-images/' . $filename;
         }
 
-        if ($banner->save()) {
+        if ($dress_code->save()) {
             return response()->json([
                 'type' => 'success',
-                'message' => 'Banner updated successfully.',
+                'message' => 'Dress Code updated successfully.',
             ]);
         } else {
             return response()->json([
@@ -131,19 +139,19 @@ class DressController extends Controller
             ]);
         }
 
-        $banner = Banner::find($request->id);
-        if ($banner) {
-            if ($banner->file && file_exists(public_path($banner->file))) {
-                unlink(public_path($banner->file));
+        $dress_code = DressCode::find($request->id);
+        if ($dress_code) {
+            if ($dress_code->file && file_exists(public_path($dress_code->file))) {
+                unlink(public_path($dress_code->file));
             }
 
-            if ($banner->delete()) {
+            if ($dress_code->delete()) {
                 return response()->json([
                     'type' => 'success',
-                    'message' => 'Banner deleted successfully.',
+                    'message' => 'Dress Code deleted successfully.',
                 ]);
             } else {
-                return redirect()->route('admin.home.banner')->with('error', 'Something went wrong.');
+                return redirect()->route('admin.academics.dress')->with('error', 'Something went wrong.');
             }
         } else {
             return json_encode(['error' => 'Menu not found.']);

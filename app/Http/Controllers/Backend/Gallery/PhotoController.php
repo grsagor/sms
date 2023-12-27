@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Backend\Gallery;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\Gallery;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class PhotoController extends Controller
 {
@@ -13,7 +16,7 @@ class PhotoController extends Controller
 
     public function getList()
     {
-        $data = Banner::all();
+        $data = Gallery::all();
 
         return DataTables::of($data)
 

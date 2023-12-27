@@ -5,7 +5,7 @@
             <form action="" id="partnerCreateForm" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Banner</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Result</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>
                     </button>
@@ -24,8 +24,6 @@
                                     <input type="file" class="form-control"
                                         onchange="previewFile('createModal #profile_image', 'createModal .profile_image')"
                                         name="file" id="profile_image" required>
-                                    <img src="{{ asset('assets/img/no-img.jpg') }}" height="80px" width="100px"
-                                        class="profile_image mt-1 border" alt="">
                                 </div>
                             </div>
                         </div>
