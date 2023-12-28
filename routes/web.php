@@ -21,6 +21,7 @@ use App\Http\Controllers\Backend\Facilities\MultimediaController;
 use App\Http\Controllers\Backend\Facilities\PrayerroomController;
 use App\Http\Controllers\Backend\Facilities\ScienceController;
 use App\Http\Controllers\Backend\Facilities\SmsController;
+use App\Http\Controllers\Backend\Gallery\GalleryeventController;
 use App\Http\Controllers\Backend\Gallery\PhotoController;
 use App\Http\Controllers\Backend\Gallery\VideoController;
 use App\Http\Controllers\Backend\Home\BannerController;
@@ -265,11 +266,27 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkAdmin'], function () {
         Route::group(['prefix' => '/info'], function () {
             Route::controller(InfoController::class)->group(function () {
                 Route::get('/', 'index')->name('admin.admission.info');
+                Route::get('/get/list', 'getList')->name('admin.admission.info.get.list');
+                Route::post('/store', 'store')->name('admin.admission.info.store');
+                Route::get('/edit', 'edit')->name('admin.admission.info.edit');
+                Route::post('/update', 'update')->name('admin.admission.info.update');
+                Route::get('/delete', 'delete')->name('admin.admission.info.delete');
             });
         });
     });
 
     Route::group(['prefix' => '/gallery'], function () {
+        Route::group(['prefix' => '/event'], function () {
+            Route::controller(GalleryeventController::class)->group(function () {
+                Route::get('/', 'index')->name('admin.gallery.event');
+                Route::get('/get/list', 'getList')->name('admin.gallery.event.get.list');
+                Route::post('/store', 'store')->name('admin.gallery.event.store');
+                Route::get('/edit', 'edit')->name('admin.gallery.event.edit');
+                Route::post('/update', 'update')->name('admin.gallery.event.update');
+                Route::get('/delete', 'delete')->name('admin.gallery.event.delete');
+            });
+        });
+
         Route::group(['prefix' => '/photo'], function () {
             Route::controller(PhotoController::class)->group(function () {
                 Route::get('/', 'index')->name('admin.gallery.photo');
@@ -284,6 +301,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkAdmin'], function () {
         Route::group(['prefix' => '/video'], function () {
             Route::controller(VideoController::class)->group(function () {
                 Route::get('/', 'index')->name('admin.gallery.video');
+                Route::get('/get/list', 'getList')->name('admin.gallery.video.get.list');
+                Route::post('/store', 'store')->name('admin.gallery.video.store');
+                Route::get('/edit', 'edit')->name('admin.gallery.video.edit');
+                Route::post('/update', 'update')->name('admin.gallery.video.update');
+                Route::get('/delete', 'delete')->name('admin.gallery.video.delete');
             });
         });
     });
@@ -350,12 +372,22 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkAdmin'], function () {
     Route::group(['prefix' => '/notice'], function () {
         Route::controller(NoticeController::class)->group(function () {
             Route::get('/', 'index')->name('admin.notice');
+            Route::get('/get/list', 'getList')->name('admin.notice.get.list');
+            Route::post('/store', 'store')->name('admin.notice.store');
+            Route::get('/edit', 'edit')->name('admin.notice.edit');
+            Route::post('/update', 'update')->name('admin.notice.update');
+            Route::get('/delete', 'delete')->name('admin.notice.delete');
         });
     });
 
     Route::group(['prefix' => '/contact'], function () {
         Route::controller(ContactController::class)->group(function () {
             Route::get('/', 'index')->name('admin.contact');
+            Route::get('/get/list', 'getList')->name('admin.contact.get.list');
+            Route::post('/store', 'store')->name('admin.contact.store');
+            Route::get('/edit', 'edit')->name('admin.contact.edit');
+            Route::post('/update', 'update')->name('admin.contact.update');
+            Route::get('/delete', 'delete')->name('admin.contact.delete');
         });
     });
 });

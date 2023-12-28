@@ -256,14 +256,17 @@
                 </a>
 
                 <a class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#galleryNav"
-                    aria-expanded="@if (Route::is('admin.setting.general') || Route::is('admin.resource')) true @else false @endif"
+                    aria-expanded="@if (Route::is('admin.setting.general') || Route::is('admin.gallery.event') || Route::is('admin.resource')) true @else false @endif"
                     aria-controls="collapseLayouts">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-gear"></i></div> Gallery
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <div class="collapse @if (Route::is('admin.gallery.photo') || Route::is('admin.gallery.video')) show @endif" id="galleryNav"
+                <div class="collapse @if (Route::is('admin.gallery.photo') || Route::is('admin.gallery.event') || Route::is('admin.gallery.video')) show @endif" id="galleryNav"
                     aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav down">
+                        <a class="nav-link {{ Route::is('admin.gallery.event') ? 'active' : '' }}"
+                            href="{{ route('admin.gallery.event') }}"><i class="fa-solid fa-angles-right ikon"></i>
+                            Gallery Event </a>
                         <a class="nav-link {{ Route::is('admin.gallery.photo') ? 'active' : '' }}"
                             href="{{ route('admin.gallery.photo') }}"><i class="fa-solid fa-angles-right ikon"></i>
                             Photo Gallery </a>

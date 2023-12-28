@@ -1,18 +1,28 @@
 @extends('backend.layout.app')
-@section('title', 'Banner | ' . Helper::getSettings('application_name') ?? 'ABM')
+@section('title', 'Video Gallery | ' . Helper::getSettings('application_name') ?? 'ABM')
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/vendor/tagsinput/tagsinput.css') }}">
+    <style>
+        .profile_image {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .profile_image img {
+            width: 100%;
+        }
+    </style>
 @endsection
 @section('content')
     <div class="container-fluid px-4">
-        <h4 class="mt-2">Banner Management</h4>
+        <h4 class="mt-2">Video Gallery Management</h4>
 
         <div class="card my-2">
             <div class="card-header">
                 <div class="row ">
                     <div class="col-12 d-flex justify-content-between">
                         <div class="d-flex align-items-center">
-                            <h5 class="m-0">Banner List</h5>
+                            <h5 class="m-0">Video Gallery List</h5>
                         </div>
                         @if (Helper::hasRight('menu.create'))
                             <button type="button" class="btn btn-primary btn-create-user create_form_btn"
@@ -37,7 +47,7 @@
             </div>
         </div>
     </div>
-    @include('backend.pages.home.banner.modal')
+    @include('backend.pages.gallery.photo.modal')
     @push('footer')
         <script src="{{ asset('assets/vendor/tagsinput/tagsinput.js') }}"></script>
         <script type="text/javascript">
@@ -47,7 +57,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('admin.home.banner.get.list') }}",
+                        url: "{{ route('admin.gallery.video.get.list') }}",
                         type: 'GET',
                     },
                     aLengthMenu: [
@@ -58,8 +68,7 @@
                     "order": [
                         [1, 'asc']
                     ],
-                    columns: [
-                        {
+                    columns: [                        {
                             data: 'file',
                             name: 'file'
                         },
@@ -89,7 +98,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ route('admin.home.banner.store') }}",
+                        url: "{{ route('admin.gallery.video.store') }}",
                         type: "POST",
                         data: formData,
                         processData: false,
@@ -127,7 +136,7 @@
                 e.preventDefault();
                 let id = $(this).attr('data-id');
                 $.ajax({
-                    url: "{{ route('admin.home.banner.edit') }}",
+                    url: "{{ route('admin.gallery.video.edit') }}",
                     type: "GET",
                     data: {
                         id: id
@@ -153,7 +162,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ route('admin.home.banner.update') }}",
+                        url: "{{ route('admin.gallery.video.update') }}",
                         type: "POST",
                         data: formData,
                         processData: false,
@@ -200,7 +209,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('admin.home.banner.delete') }}",
+                            url: "{{ route('admin.gallery.video.delete') }}",
                             type: "GET",
                             data: {
                                 id: id
@@ -284,6 +293,23 @@
                 event.preventDefault();
                 var row = event.target.closest('tr');
                 row.remove();
+            }
+
+            function previewFiles(input, preview) {
+                var files = $("#" + input + "").get(0).files;
+
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+
+                    if (file) {
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            var image = $("<img>").attr("src", e.target.result);
+                            $("#" + preview + "").append(image);
+                        }
+                        reader.readAsDataURL(file);
+                    }
+                }
             }
         </script>
     @endpush

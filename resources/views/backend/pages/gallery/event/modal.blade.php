@@ -5,7 +5,7 @@
             <form action="" id="partnerCreateForm" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Result</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Photo Event</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>
                     </button>
@@ -19,14 +19,20 @@
                     <div class="col-sm-12 tab-content" id="v-pills-tabContent">
 
                         <div class="step step_1 tab-pane fade create-artist">
-                            <div class="d-flex w-100 gap-2 mb-1">
-                                <div class="form-group mb-1 w-100">
-                                    <input type="file" class="form-control"
-                                        onchange="previewFile('createModal #profile_image', 'createModal .profile_image')"
-                                        name="file" id="profile_image" required>
-                                </div>
+                            <div class="form-floating mb-1 w-100">
+                                <input type="text" class="form-control" placeholder="Email"
+                                    name="name" value="{{ old('name') }}" required>
+                                <label for="">Event Name<span class="text-danger">*</span></label>
                             </div>
                         </div>
+                        <div class="form-group mb-1 w-100">
+                            <select name="type" class="form-control" id="type">
+                                <option value="">Select gallery type</option>
+                                <option value="photo">Photo</option>
+                                <option value="video">Video</option>
+                            </select>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="modal-footer">

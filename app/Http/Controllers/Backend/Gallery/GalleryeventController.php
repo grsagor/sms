@@ -1,30 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers\Backend\Gallery;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
-use App\Models\Notice;
+use App\Models\Gallery;
+use App\Models\GalleryEvent;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
-class NoticeController extends Controller
+class GalleryeventController extends Controller
 {
     public function index() {
-        return view('backend.pages.notice.index');
+        return view('backend.pages.gallery.event.index');
     }
 
     public function getList()
     {
-        $data = Notice::all();
+        $data = GalleryEvent::all();
 
         return DataTables::of($data)
 
             ->addColumn('action', function ($row) {
                 $btn = '';
-                if (Helper::hasRight('event.delete')) {
-                    $btn = $btn . '<a target="_blank" class="btn btn-sm btn-success mx-1" href="/'.$row->file.'"><i class="fa fa-eye" aria-hidden="true"></i></a>';
-                }
                 if (Helper::hasRight('event.edit')) {
                     $btn = $btn . '<a href="" data-id="' . $row->id . '" class="edit_btn btn btn-sm btn-primary mx-1"><i class="fa-solid fa-pencil"></i></a>';
                 }
@@ -46,28 +44,19 @@ class NoticeController extends Controller
         }
         $requestData = $request->all();
         $rules = [
-            'file' => 'required|mimes:pdf|max:20480',
-            'notice' => 'required',
-            'date' => 'required',
+            'name' => 'required',
         ];
         $validator = $request->validate($rules);
 
-        $notice = new Notice();
+        $gallery = new GalleryEvent();
 
-        $notice->notice = $request->notice;
-        $notice->date = $request->date;
+        $gallery->name = $request->name;
+        $gallery->type = $request->type;
 
-        if ($request->hasFile('file')) {
-            $image = $request->file('file');
-            $filename = time() . uniqid() . $image->getClientOriginalName();
-            $image->move(public_path('uploads/banner-images'), $filename);
-            $notice->file = 'uploads/banner-images/' . $filename;
-        }
-
-        if ($notice->save()) {
+        if ($gallery->save()) {
             return response()->json([
                 'type' => 'success',
-                'message' => 'Notice created successfully.',
+                'message' => 'Photo created successfully.',
             ]);
         } else {
             return response()->json([
@@ -79,13 +68,14 @@ class NoticeController extends Controller
 
     public function edit(Request $request)
     {
-        $notice = Notice::find($request->id);
-
+        $gallery = GalleryEvent::find($request->id);
+        $files = Gallery::where('event_id', $request->id)->get();
         $data = [
-            'notice' => $notice,
+            'gallery' => $gallery,
+            'files' => $files,
         ];
 
-        return view('backend.pages.notice.edit', $data);
+        return view('backend.pages.gallery.event.edit', $data);
     }
 
     public function update(Request $request)
@@ -98,31 +88,19 @@ class NoticeController extends Controller
         }
         $requestData = $request->all();
         $rules = [
-            'notice' => 'required',
-            'date' => 'required',
         ];
 
         $validator = $request->validate($rules);
-        $notice = Notice::find($request->id);
 
-        $notice->notice = $request->notice;
-        $notice->date = $request->date;
+        $gallery = GalleryEvent::find($request->id);
 
-        if ($request->hasFile('file')) {
-            if ($notice->file && file_exists(public_path($notice->file))) {
-                unlink(public_path($notice->file));
-            }
+        $gallery->name = $request->name;
+        $gallery->type = $request->type;
 
-            $image = $request->file('file');
-            $filename = time() . uniqid() . $image->getClientOriginalName();
-            $image->move(public_path('uploads/banner-images'), $filename);
-            $notice->file = 'uploads/banner-images/' . $filename;
-        }
-
-        if ($notice->save()) {
+        if ($gallery->save()) {
             return response()->json([
                 'type' => 'success',
-                'message' => 'Notice updated successfully.',
+                'message' => 'Photo updated successfully.',
             ]);
         } else {
             return response()->json([
@@ -141,19 +119,19 @@ class NoticeController extends Controller
             ]);
         }
 
-        $notice = Notice::find($request->id);
-        if ($notice) {
-            if ($notice->file && file_exists(public_path($notice->file))) {
-                unlink(public_path($notice->file));
+        $gallery = Gallery::find($request->id);
+        if ($gallery) {
+            if ($gallery->file && file_exists(public_path($gallery->file))) {
+                unlink(public_path($gallery->file));
             }
 
-            if ($notice->delete()) {
+            if ($gallery->delete()) {
                 return response()->json([
                     'type' => 'success',
-                    'message' => 'Notice deleted successfully.',
+                    'message' => 'Photo deleted successfully.',
                 ]);
             } else {
-                return redirect()->route('admin.home.banner')->with('error', 'Something went wrong.');
+                return redirect()->route('admin.gallery.event')->with('error', 'Something went wrong.');
             }
         } else {
             return json_encode(['error' => 'Menu not found.']);

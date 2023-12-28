@@ -19,6 +19,18 @@
                     <div class="col-sm-12 tab-content" id="v-pills-tabContent">
 
                         <div class="step step_1 tab-pane fade create-artist">
+                            <div class="form-floating mb-1 w-100">
+                                <input type="text" class="form-control" placeholder="Email"
+                                    name="notice" value="{{ old('notice') }}" required>
+                                <label for="">Notice<span class="text-danger">*</span></label>
+                            </div>
+
+                            <div class="form-floating mb-1 w-100">
+                                <input type="date" class="form-control" placeholder="Amount"
+                                    value="{{ old('date') }}" name="date" required>
+                                <label for="">Date<span class="text-danger">*</span></label>
+                            </div>
+
                             <div class="d-flex w-100 gap-2 mb-1">
                                 <div class="form-group mb-1 w-100">
                                     <input type="file" class="form-control"

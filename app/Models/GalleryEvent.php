@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Gallery extends Model
+class GalleryEvent extends Model
 {
     use HasFactory;
 
-    public function event()
+    public function galleries()
     {
-        return $this->belongsTo(GalleryEvent::class);
+        return $this->hasMany(Gallery::class, 'event_id');
     }
 }

@@ -5,13 +5,18 @@ namespace App\Http\Controllers\Backend\Gallery;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
+use App\Models\GalleryEvent;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
 class PhotoController extends Controller
 {
     public function index() {
-        return view('backend.pages.gallery.photo.index');
+        $events = GalleryEvent::where('type','photo')->get();
+        $data = [
+            'events' => $events,
+        ];
+        return view('backend.pages.gallery.photo.index', $data);
     }
 
     public function getList()
@@ -48,23 +53,22 @@ class PhotoController extends Controller
         }
         $requestData = $request->all();
         $rules = [
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
         $validator = $request->validate($rules);
 
-        $banner = new Banner();
-
+        $gallery = new Gallery();
+        $gallery->event_id = $request->event_id;
         if ($request->hasFile('file')) {
             $image = $request->file('file');
             $filename = time() . uniqid() . $image->getClientOriginalName();
             $image->move(public_path('uploads/banner-images'), $filename);
-            $banner->file = 'uploads/banner-images/' . $filename;
+            $gallery->file = 'uploads/banner-images/' . $filename;
         }
 
-        if ($banner->save()) {
+        if ($gallery->save()) {
             return response()->json([
                 'type' => 'success',
-                'message' => 'Banner created successfully.',
+                'message' => 'Photo created successfully.',
             ]);
         } else {
             return response()->json([
@@ -76,13 +80,14 @@ class PhotoController extends Controller
 
     public function edit(Request $request)
     {
-        $banner = Banner::find($request->id);
-
+        $gallery = Gallery::find($request->id);
+        $events = GalleryEvent::where('type','photo')->get();
         $data = [
-            'banner' => $banner,
+            'gallery' => $gallery,
+            'events' => $events,
         ];
 
-        return view('backend.pages.home.banner.edit', $data);
+        return view('backend.pages.gallery.photo.edit', $data);
     }
 
     public function update(Request $request)
@@ -95,27 +100,28 @@ class PhotoController extends Controller
         }
         $requestData = $request->all();
         $rules = [
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
 
         $validator = $request->validate($rules);
-        $banner = Banner::find($request->id);
+
+        $gallery = Gallery::find($request->id);
+        $gallery->event_id = $request->event_id;
 
         if ($request->hasFile('file')) {
-            if ($banner->file && file_exists(public_path($banner->file))) {
-                unlink(public_path($banner->file));
+            if ($gallery->file && file_exists(public_path($gallery->file))) {
+                unlink(public_path($gallery->file));
             }
 
             $image = $request->file('file');
             $filename = time() . uniqid() . $image->getClientOriginalName();
             $image->move(public_path('uploads/banner-images'), $filename);
-            $banner->file = 'uploads/banner-images/' . $filename;
+            $gallery->file = 'uploads/banner-images/' . $filename;
         }
 
-        if ($banner->save()) {
+        if ($gallery->save()) {
             return response()->json([
                 'type' => 'success',
-                'message' => 'Banner updated successfully.',
+                'message' => 'Photo updated successfully.',
             ]);
         } else {
             return response()->json([
@@ -134,19 +140,19 @@ class PhotoController extends Controller
             ]);
         }
 
-        $banner = Banner::find($request->id);
-        if ($banner) {
-            if ($banner->file && file_exists(public_path($banner->file))) {
-                unlink(public_path($banner->file));
+        $gallery = Gallery::find($request->id);
+        if ($gallery) {
+            if ($gallery->file && file_exists(public_path($gallery->file))) {
+                unlink(public_path($gallery->file));
             }
 
-            if ($banner->delete()) {
+            if ($gallery->delete()) {
                 return response()->json([
                     'type' => 'success',
-                    'message' => 'Banner deleted successfully.',
+                    'message' => 'Photo deleted successfully.',
                 ]);
             } else {
-                return redirect()->route('admin.home.banner')->with('error', 'Something went wrong.');
+                return redirect()->route('admin.gallery.photo')->with('error', 'Something went wrong.');
             }
         } else {
             return json_encode(['error' => 'Menu not found.']);

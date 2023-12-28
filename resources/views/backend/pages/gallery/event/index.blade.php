@@ -1,5 +1,5 @@
 @extends('backend.layout.app')
-@section('title', 'Photo Gallery | ' . Helper::getSettings('application_name') ?? 'ABM')
+@section('title', 'Gallery Event | ' . Helper::getSettings('application_name') ?? 'ABM')
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/vendor/tagsinput/tagsinput.css') }}">
     <style>
@@ -15,14 +15,14 @@
 @endsection
 @section('content')
     <div class="container-fluid px-4">
-        <h4 class="mt-2">Photo Gallery Management</h4>
+        <h4 class="mt-2">Gallery Event</h4>
 
         <div class="card my-2">
             <div class="card-header">
                 <div class="row ">
                     <div class="col-12 d-flex justify-content-between">
                         <div class="d-flex align-items-center">
-                            <h5 class="m-0">Photo Gallery List</h5>
+                            <h5 class="m-0">Gallery Event List</h5>
                         </div>
                         @if (Helper::hasRight('menu.create'))
                             <button type="button" class="btn btn-primary btn-create-user create_form_btn"
@@ -36,7 +36,7 @@
                 <table class="table table-bordered" id="dataTable">
                     <thead>
                         <tr>
-                            <th>Image</th>
+                            <th>Name</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -47,7 +47,7 @@
             </div>
         </div>
     </div>
-    @include('backend.pages.gallery.photo.modal')
+    @include('backend.pages.gallery.event.modal')
     @push('footer')
         <script src="{{ asset('assets/vendor/tagsinput/tagsinput.js') }}"></script>
         <script type="text/javascript">
@@ -57,7 +57,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('admin.gallery.photo.get.list') }}",
+                        url: "{{ route('admin.gallery.event.get.list') }}",
                         type: 'GET',
                     },
                     aLengthMenu: [
@@ -68,9 +68,9 @@
                     "order": [
                         [1, 'asc']
                     ],
-                    columns: [                        {
-                            data: 'file',
-                            name: 'file'
+                    columns: [{
+                            data: 'name',
+                            name: 'name'
                         },
                         {
                             data: 'action',
@@ -98,7 +98,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ route('admin.gallery.photo.store') }}",
+                        url: "{{ route('admin.gallery.event.store') }}",
                         type: "POST",
                         data: formData,
                         processData: false,
@@ -136,7 +136,7 @@
                 e.preventDefault();
                 let id = $(this).attr('data-id');
                 $.ajax({
-                    url: "{{ route('admin.gallery.photo.edit') }}",
+                    url: "{{ route('admin.gallery.event.edit') }}",
                     type: "GET",
                     data: {
                         id: id
@@ -162,7 +162,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ route('admin.gallery.photo.update') }}",
+                        url: "{{ route('admin.gallery.event.update') }}",
                         type: "POST",
                         data: formData,
                         processData: false,
@@ -209,7 +209,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('admin.gallery.photo.delete') }}",
+                            url: "{{ route('admin.gallery.event.delete') }}",
                             type: "GET",
                             data: {
                                 id: id

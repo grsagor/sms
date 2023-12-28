@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Backend\Admission;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+use App\Models\File;
 
 class InfoController extends Controller
 {
@@ -13,19 +16,19 @@ class InfoController extends Controller
 
     public function getList()
     {
-        $data = Banner::all();
+        $data = File::where('type','admission_info')->get();
 
         return DataTables::of($data)
 
             ->editColumn('file', function ($row) {
                 $images = $row->file;
-                return '<a href="'.asset($images).'" target="_blank"><img class="" width="50px" height="50px" src="'.asset($images).'" alt="profile image"></a>';
+                return '<a href="' . asset($images) . '" target="_blank"><img class="" width="50px" height="50px" src="' . asset($images) . '" alt="profile image"></a>';
             })
 
             ->addColumn('action', function ($row) {
                 $btn = '';
-                if (Helper::hasRight('event.edit')) {
-                    $btn = $btn . '<a href="" data-id="' . $row->id . '" class="edit_btn btn btn-sm btn-primary mx-1"><i class="fa-solid fa-pencil"></i></a>';
+                if (Helper::hasRight('event.delete')) {
+                    $btn = $btn . '<a target="_blank" class="btn btn-sm btn-success mx-1" href="/'.$row->file.'"><i class="fa fa-eye" aria-hidden="true"></i></a>';
                 }
                 if (Helper::hasRight('event.delete')) {
                     $btn = $btn . '<a class="delete_btn btn btn-sm btn-danger " data-id="' . $row->id . '" href=""><i class="fa fa-trash" aria-hidden="true"></i></a>';
@@ -45,23 +48,25 @@ class InfoController extends Controller
         }
         $requestData = $request->all();
         $rules = [
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'file' => 'required|mimes:pdf|max:20480',
         ];
         $validator = $request->validate($rules);
 
-        $banner = new Banner();
+        $file = new File();
 
+        $file->type = 'admission_info';
         if ($request->hasFile('file')) {
             $image = $request->file('file');
+            $file->title = $image->getClientOriginalName();
             $filename = time() . uniqid() . $image->getClientOriginalName();
-            $image->move(public_path('uploads/banner-images'), $filename);
-            $banner->file = 'uploads/banner-images/' . $filename;
+            $image->move(public_path('uploads/file-images'), $filename);
+            $file->file = 'uploads/file-images/' . $filename;
         }
 
-        if ($banner->save()) {
+        if ($file->save()) {
             return response()->json([
                 'type' => 'success',
-                'message' => 'Banner created successfully.',
+                'message' => 'Results created successfully.',
             ]);
         } else {
             return response()->json([
@@ -73,13 +78,13 @@ class InfoController extends Controller
 
     public function edit(Request $request)
     {
-        $banner = Banner::find($request->id);
+        $file = File::find($request->id);
 
         $data = [
-            'banner' => $banner,
+            'file' => $file,
         ];
 
-        return view('backend.pages.home.banner.edit', $data);
+        return view('backend.pages.academics.results.edit', $data);
     }
 
     public function update(Request $request)
@@ -96,20 +101,20 @@ class InfoController extends Controller
         ];
 
         $validator = $request->validate($rules);
-        $banner = Banner::find($request->id);
+        $file = File::find($request->id);
 
         if ($request->hasFile('file')) {
-            if ($banner->file && file_exists(public_path($banner->file))) {
-                unlink(public_path($banner->file));
+            if ($file->file && file_exists(public_path($file->file))) {
+                unlink(public_path($file->file));
             }
 
             $image = $request->file('file');
             $filename = time() . uniqid() . $image->getClientOriginalName();
-            $image->move(public_path('uploads/banner-images'), $filename);
-            $banner->file = 'uploads/banner-images/' . $filename;
+            $image->move(public_path('uploads/file-images'), $filename);
+            $file->file = 'uploads/file-images/' . $filename;
         }
 
-        if ($banner->save()) {
+        if ($file->save()) {
             return response()->json([
                 'type' => 'success',
                 'message' => 'Banner updated successfully.',
@@ -121,7 +126,7 @@ class InfoController extends Controller
             ]);
         }
     }
-    
+
     public function delete(Request $request)
     {
         if (!Helper::hasRight('menu.delete')) {
@@ -131,22 +136,22 @@ class InfoController extends Controller
             ]);
         }
 
-        $banner = Banner::find($request->id);
-        if ($banner) {
-            if ($banner->file && file_exists(public_path($banner->file))) {
-                unlink(public_path($banner->file));
+        $file = File::find($request->id);
+        if ($file) {
+            if ($file->file && file_exists(public_path($file->file))) {
+                unlink(public_path($file->file));
             }
 
-            if ($banner->delete()) {
+            if ($file->delete()) {
                 return response()->json([
                     'type' => 'success',
-                    'message' => 'Banner deleted successfully.',
+                    'message' => 'File deleted successfully.',
                 ]);
             } else {
-                return redirect()->route('admin.home.banner')->with('error', 'Something went wrong.');
+                return redirect()->route('admin.about.us.glance')->with('error', 'Something went wrong.');
             }
         } else {
-            return json_encode(['error' => 'Menu not found.']);
+            return json_encode(['error' => 'File not found.']);
         }
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Backend\Home;
 
 use App\Http\Controllers\Controller;
-use App\Models\Banner;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
