@@ -9,11 +9,11 @@
                         <!-- <h3>BizLand<span>.</span></h3> -->
                         <img src="{{ asset('assets/img/logo.png') }}" style="width:50px">
                         <p>
-                            Mohammadbag Chourasta <br>
-                            Merajnagar, Kadamtoli<br>
-                            Dhaka <br><br>
-                            <strong>Phone:</strong> +8801676275857<br>
-                            <strong>Email:</strong> contact@abmgsac.com<br>
+                            <br>
+                            <p>{{ Helper::getSettings('application_address') }}</p>
+                            <br>
+                            <strong>Phone:</strong> {{ Helper::getSettings('application_phone') }}<br>
+                            <strong>Email:</strong> {{ Helper::getSettings('application_email') }}<br>
                         </p>
                     </div>
 

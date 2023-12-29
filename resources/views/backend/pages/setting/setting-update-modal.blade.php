@@ -1,7 +1,7 @@
 <form id="updateSettingModalForm" method="post" enctype="multipart/form-data">
     @csrf
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Introduction Members</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Update</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>
         </button>

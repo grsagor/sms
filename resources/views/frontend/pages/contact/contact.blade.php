@@ -12,7 +12,7 @@
           <div class="info-box mb-4">
             <i class="bx bx-map"></i>
             <h3>আমদের ঠিকানা</h3>
-            <p>মোহাম্মদবাগ চৌরাস্তা, কদমতলী, ঢাকা</p>
+            <p>{!! nl2br(Helper::getSettings('application_address')) !!}</p>
           </div>
         </div>
 
@@ -20,7 +20,7 @@
           <div class="info-box  mb-4">
             <i class="bx bx-envelope"></i>
             <h3>ই-মেইল করুন</h3>
-            <p>contact@abmgsac.com</p>
+            <p>{!! nl2br(Helper::getSettings('application_email')) !!}</p>
           </div>
         </div>
 
@@ -28,7 +28,7 @@
           <div class="info-box  mb-4">
             <i class="bx bx-phone-call"></i>
             <h3>ফোন করুন</h3>
-            <p>+1 5589 55488 55</p>
+            <p>{!! nl2br(Helper::getSettings('application_phone')) !!}</p>
           </div>
         </div>
 

@@ -9,8 +9,8 @@
             </div>
 
             <div class="pdf-view">
-                <object data="{{ asset('assets/admission.pdf') }}" type="application/pdf" width="100%" height="100%">
-                    <p>Alternative text - include a link <a href="{{ asset('assets/admission.pdf') }}">to the PDF!</a></p>
+                <object data="{{ asset($admission_info->file) }}" type="application/pdf" width="100%" height="100%">
+                    <p>Alternative text - include a link <a href="{{ asset($admission_info->file) }}">to the PDF!</a></p>
                 </object>
             </div>
            
