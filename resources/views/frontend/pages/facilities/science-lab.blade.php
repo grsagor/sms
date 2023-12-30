@@ -12,12 +12,11 @@
             </div>
 
             <div class="row">
-                <div class="col-lg-6 f-body">
-                    <img class="f-img" src="{{ asset('assets/img/plab.jpg') }}">
-                </div>
-                <div class="col-lg-6 f-body">
-                    <img class="f-img" src="{{ asset('assets/img/plab2.jpg') }}">
-                </div>
+                @foreach ($physics as $file)
+                    <div class="col-lg-6 f-body">
+                        <img class="f-img" src="{{ asset($file->file) }}">
+                    </div>
+                @endforeach
             </div>
            
         </div>
@@ -36,12 +35,11 @@
             </div>
 
             <div class="row">
-                <div class="col-lg-6 f-body">
-                    <img class="f-img" src="{{ asset('assets/img/clab.jpg') }}">
-                </div>
-                <div class="col-lg-6 f-body">
-                    <img class="f-img" src="{{ asset('assets/img/clab2.jpg') }}">
-                </div>
+                @foreach ($physics as $file)
+                    <div class="col-lg-6 f-body">
+                        <img class="f-img" src="{{ asset($file->file) }}">
+                    </div>
+                @endforeach
             </div>
            
         </div>
@@ -60,12 +58,11 @@
             </div>
 
             <div class="row">
-                <div class="col-lg-6 f-body">
-                    <img class="f-img" src="{{ asset('assets/img/blab.jpg') }}">
-                </div>
-                <div class="col-lg-6 f-body">
-                    <img class="f-img" src="{{ asset('assets/img/blab2.jpg') }}">
-                </div>
+                @foreach ($physics as $file)
+                    <div class="col-lg-6 f-body">
+                        <img class="f-img" src="{{ asset($file->file) }}">
+                    </div>
+                @endforeach
             </div>
            
         </div>

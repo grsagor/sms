@@ -25,8 +25,8 @@
             <div class="form-group mb-1 w-100">
                 <select name="type" class="form-control" id="type">
                     <option value="">Select gallery type</option>
-                    <option {{ $gallery->type == 'photo' ? 'selected' }} value="photo">Photo</option>
-                    <option {{ $gallery->type == 'video' ? 'selected' }} value="video">Video</option>
+                    <option {{ $gallery->type == 'photo' ? 'selected' : '' }} value="photo">Photo</option>
+                    <option {{ $gallery->type == 'video' ? 'selected' : '' }} value="video">Video</option>
                 </select>
             </div>
         </div>

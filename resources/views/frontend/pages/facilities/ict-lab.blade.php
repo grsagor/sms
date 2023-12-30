@@ -14,8 +14,12 @@
                
             </div>
 
-            <div class="col-lg-12 f-body">
-                <img class="f-img" src="{{ asset('assets/img/ict.jpg') }}">
+            <div class="row">
+                @foreach ($icts as $file)
+                    <div class="col-lg-6 f-body">
+                        <img class="f-img" src="{{ asset($file->file) }}">
+                    </div>
+                @endforeach
             </div>
            
         </div>

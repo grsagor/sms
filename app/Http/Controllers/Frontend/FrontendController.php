@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\DressCode;
 use App\Models\File;
+use App\Models\GalleryEvent;
 use App\Models\GoverningBody;
 use App\Models\Introduction;
+use App\Models\Notice;
 use App\Models\Rule;
 use App\Models\TeachingStaff;
 use App\Models\Why;
@@ -100,37 +102,67 @@ class FrontendController extends Controller
         }
     }
     public function facilities($type) {
+        $physics = File::where('type', 'physics_lab')->get();
+        $chemistries = File::where('type', 'chemistry_lab')->get();
+        $biolgies = File::where('type', 'biology_lab')->get();
+        $icts = File::where('type', 'ict_lab')->get();
+        $libraries = File::where('type', 'library')->get();
+        $multimedias = File::where('type', 'multimedia_classroom')->get();
+        $smss = File::where('type', 'qip_sms_service')->get();
+        $commons = File::where('type', 'common_room')->get();
+        $prayers = File::where('type', 'prayer_room')->get();
+        $data = [
+            'physics' => $physics,
+            'chemistries' => $chemistries,
+            'biolgies' => $biolgies,
+            'icts' => $icts,
+            'libraries' => $libraries,
+            'multimedias' => $multimedias,
+            'smss' => $smss,
+            'commons' => $commons,
+            'prayers' => $prayers,
+        ];
         switch ($type) {
             case 'science-lab':
-                return view('frontend.pages.facilities.science-lab');
+                return view('frontend.pages.facilities.science-lab', $data);
             case 'ict-lab':
-                return view('frontend.pages.facilities.ict-lab');
+                return view('frontend.pages.facilities.ict-lab', $data);
             case 'library':
-                return view('frontend.pages.facilities.library');
+                return view('frontend.pages.facilities.library', $data);
             case 'multi-media-classroom':
-                return view('frontend.pages.facilities.multi-media-classroom');
+                return view('frontend.pages.facilities.multi-media-classroom', $data);
             case 'qip-sms-service':
-                return view('frontend.pages.facilities.qip-sms-service');
+                return view('frontend.pages.facilities.qip-sms-service', $data);
             case 'common-room':
-                return view('frontend.pages.facilities.common-room');
+                return view('frontend.pages.facilities.common-room', $data);
             case 'prayer-room':
-                return view('frontend.pages.facilities.prayer-room');
+                return view('frontend.pages.facilities.prayer-room', $data);
             default:
                 break;
         }
     }
     public function gallery($type) {
+        $photo_events = GalleryEvent::where('type', 'photo')->with('galleries')->get();
+        $video_events = GalleryEvent::where('type', 'video')->with('galleries')->get();
+        $data = [
+            'photo_events' => $photo_events,
+            'video_events' => $video_events,
+        ];
         switch ($type) {
             case 'photo':
-                return view('frontend.pages.gallery.photo');
+                return view('frontend.pages.gallery.photo', $data);
             case 'video':
-                return view('frontend.pages.gallery.video');
+                return view('frontend.pages.gallery.video', $data);
             default:
                 break;
         }
     }
     public function notice() {
-        return view('frontend.pages.notice.notice');
+        $notices = Notice::all();
+        $data = [
+            'notices' => $notices,
+        ];
+        return view('frontend.pages.notice.notice', $data);
     }
     public function contact() {
         return view('frontend.pages.contact.contact');

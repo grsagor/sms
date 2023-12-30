@@ -1,7 +1,7 @@
 @extends('frontend.include.app')
 @section('content')
     <!-- ======= Hero Section ======= -->
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    {{-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -28,7 +28,23 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only"></span>
         </a>
-    </div>
+    </div> --}}
+
+    <section class="p-0">
+        <div class="owl-carousel owl-theme position-relative">
+            @foreach ($banners as $i => $banner)
+                <div class="item">
+                    <img src="{{ asset($banner->file) }}" alt="">
+                    <div class="carousel-text--container">
+                        <div class="carousel-logo-container d-flex justify-content-center">
+                            <img class="carousel-logo" src="{{ asset('uploads/settings/'.Helper::getSettings('site_logo')) }}" alt="">
+                        </div>
+                        <h5 class="carousel-label">ABM Graduate School & College</h5>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </section>
 
     <main id="main">
 
@@ -172,4 +188,139 @@
 
 
     </main><!-- End #main -->
+@endsection
+
+@section('css')
+    <link rel="stylesheet" href="{{ asset('vendor/owl-carousel/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/owl-carousel/css/owl.theme.default.min.css') }}">
+
+    <style>
+        .owl-carousel .item {
+            position: relative;
+            height: 80vh;
+        }
+
+        .owl-carousel .item img {
+            filter: brightness(0.5);
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .carousel-text--container {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translate(0, -50%);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .carousel-text {
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .owl-theme .owl-nav {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0;
+        }
+
+        .owl-carousel .owl-dots {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .owl-carousel .owl-nav button.owl-next,
+        .owl-carousel .owl-nav button.owl-prev {
+            padding: 12px !important;
+            font-size: 60px;
+            margin: 0;
+        }
+
+        .carousel-label .letter {
+            color: #fff;
+            font-size: 50px;
+            font-weight: 700;
+        }
+
+        .carousel-logo {
+            width: 150px !important;
+            filter: brightness(1) !important;
+        }
+
+        .carousel-label .letter:nth-child(1),
+        .carousel-label .letter:nth-child(2),
+        .carousel-label .letter:nth-child(3) {
+            color: #84b0f0;
+        }
+
+        .carousel-label .letter:nth-child(12),
+        .carousel-label .letter:nth-child(13),
+        .carousel-label .letter:nth-child(14),
+        .carousel-label .letter:nth-child(15),
+        .carousel-label .letter:nth-child(16),
+        .carousel-label .letter:nth-child(17) {
+            color: #97B4DF;
+        }
+    </style>
+@endsection
+@section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js"></script>
+    <script src="{{ asset('vendor/owl-carousel/js/owl.carousel.min.js') }}"></script>
+    <script>
+        $('.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 10,
+            nav: true,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 1
+                },
+                1000: {
+                    items: 1
+                }
+            },
+            onTranslated: startAnimation
+        })
+
+
+
+        function startAnimation() {
+            let h5 = document.querySelector('.active .carousel-label');
+            h5.innerHTML = h5.textContent.replace(/\S/g, "<span class='letter' style='display: inline-block'>$&</span>");
+
+            let timeline = anime.timeline({
+                autoplay: true,
+                loop: false
+            }).add({
+                targets: '.active .carousel-label .letter',
+                scale: [4, 1],
+                opacity: [0, 1],
+                easing: "easeOutExpo",
+                duration: 1000,
+                delay: (el, i) => 70 * i,
+                endDelay: 500
+            });
+        }
+        startAnimation();
+
+
+    </script>
 @endsection

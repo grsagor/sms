@@ -3,13 +3,13 @@
         <div class="container d-flex justify-content-center justify-content-md-between">
             <div class="contact-info d-flex align-items-center">
                 <p class="h-text">“শিক্ষা নিয়ে গড়ব দেশ শেখ হাসিনার বাংলাদেশ”</p>
-                <i class="bi bi-phone d-flex align-items-center ms-4"><span> Call : +8801676275857</span></i>
+                <i class="bi bi-phone d-flex align-items-center ms-4"><span> Call : {{ Helper::getSettings('application_phone') }}</span></i>
             </div>
             <div class="social-links d-none d-md-flex align-items-center">
-                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+                <a href="{{ Helper::getSettings('twitter_link') }}" class="twitter"><i class="bi bi-twitter"></i></a>
+                <a href="{{ Helper::getSettings('facebook_link') }}" class="facebook"><i class="bi bi-facebook"></i></a>
+                <a href="{{ Helper::getSettings('instagram_link') }}" class="instagram"><i class="bi bi-instagram"></i></a>
+                <a href="{{ Helper::getSettings('linkedin_link') }}" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
             </div>
         </div>
     </section>
@@ -20,7 +20,7 @@
 
             <div class="logo d-flex">
                 <div>
-                    <a href="{{ route('frontend.home') }}"><img src="{{ asset('assets/img/logo.png') }}" alt=""></a>
+                    <a href="{{ route('frontend.home') }}"><img src="{{ asset('uploads/settings/'.Helper::getSettings('site_logo')) }}" alt=""></a>
                 </div>
             </div>
             <!-- Uncomment below if you prefer to use an image logo -->

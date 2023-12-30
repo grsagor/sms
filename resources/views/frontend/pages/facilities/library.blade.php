@@ -12,8 +12,12 @@
 
             </div>
 
-            <div class="col-lg-12 f-body">
-                <img class="f-img" src="{{ asset('assets/img/library.jpg') }}">
+            <div class="row">
+                @foreach ($libraries as $file)
+                    <div class="col-lg-6 f-body">
+                        <img class="f-img" src="{{ asset($file->file) }}">
+                    </div>
+                @endforeach
             </div>
            
         </div>

@@ -11,6 +11,14 @@
                 {!! nl2br(Helper::getSettings('application_qip_sms_service')) !!}
 
             </div>
+
+            <div class="row">
+                @foreach ($physics as $file)
+                    <div class="col-lg-6 f-body">
+                        <img class="f-img" src="{{ asset($file->file) }}">
+                    </div>
+                @endforeach
+            </div>smss
            
         </div>
     </div>

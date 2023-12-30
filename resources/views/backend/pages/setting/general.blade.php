@@ -36,25 +36,6 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-sm-3 col-form-label">Phone:</label>
-                        <div class="col-sm-9">
-                            <input type="text" name="application_phone" value="{{ Helper::getSettings('application_phone') }}" class="form-control" placeholder="Phone" >
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="" class="col-sm-3 col-form-label">Email:</label>
-                        <div class="col-sm-9">
-                            <input type="text" name="application_email" value="{{ Helper::getSettings('application_email') }}" class="form-control" placeholder="Email" >
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="" class="col-sm-3 col-form-label">Address:</label>
-                        <div class="col-sm-9">
-                            <input type="text" name="application_address" value="{{ Helper::getSettings('application_address') }}" class="form-control" placeholder="Address" >
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
                         <label for="" class="col-sm-3 col-form-label">Facebook (Link):</label>
                         <div class="col-sm-9">
                             <input type="text" name="facebook_link" value="{{ Helper::getSettings('facebook_link') }}" class="form-control" placeholder="Facebook link" >

@@ -1,66 +1,31 @@
 @extends('frontend.include.app')
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="section-title">
-            <h3> Photo Gallery</h3>
+    <div class="container">
+        <div class="row">
+            <div class="section-title p-0">
+                <h3> Photo Gallery</h3>
+            </div>
+
         </div>
-       
     </div>
-</div>
 
-
-
-<section>
-<div class="container">
-    <div class="row">
-        <div class="gallery-image">
-           
-            <div class="img-box">
-              <img src="{{ asset('assets/img/g1.jpg') }}" alt="" />
-              <div class="transparent-box">
-                
-              </div>
-            </div>
-            <div class="img-box">
-              <img src="{{ asset('assets/img/g2.jpg') }}" alt="" />
-              <div class="transparent-box">
-               
-              </div>
-            </div>
-            <div class="img-box">
-              <img src="{{ asset('assets/img/g3.jpg') }}" alt="" />
-              <div class="transparent-box">
-              </div> 
-            </div>
-            <div class="img-box">
-              <img src="{{ asset('assets/img/g4.jpg') }}" alt="" />
-              <div class="transparent-box">
-              </div> 
-            </div>
-            <div class="img-box">
-              <img src="{{ asset('assets/img/g5.jpg') }}" alt="" />
-              <div class="transparent-box">
-              </div> 
-            </div>
-            
-            <div class="img-box">
-                <img src="{{ asset('assets/img/hero-bg.jpg') }}" alt="" />
-                <div class="transparent-box">
-                </div> 
-            </div>
-            <div class="img-box">
-                <img src="{{ asset('assets/img/testimonials-bg.jpg') }}" alt="" />
-                <div class="transparent-box">
-                </div> 
-            </div>
-            <div class="img-box">
-                <img src="{{ asset('assets/img/IMG_3347.JPG') }}" alt="" />
-                <div class="transparent-box">
-                </div> 
-            </div>
-          </div>
-    </div>
-</div>
-</section>
+    <section>
+        <div class="container">
+            @foreach ($photo_events as $event)
+                <div class="section-title p-0">
+                    <h3>  <span> {{ $event->name }} </span></h3>
+                </div>
+                <div class="row">
+                    <div class="gallery-image">
+                        @foreach ($event->galleries as $item)
+                            <div class="img-box p-0">
+                                <img src="{{ asset($item->file) }}" alt="" />
+                                <div class="transparent-box"></div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </section>
 @endsection

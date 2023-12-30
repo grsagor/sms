@@ -11,9 +11,12 @@
                 {!! nl2br(Helper::getSettings('application_prayer_room')) !!}
 
             </div>
-
-            <div class="col-lg-12 f-body">
-                <img class="f-img" src="{{ asset('assets/img/prayer.jpg') }}">
+            <div class="row">
+                @foreach ($prayers as $file)
+                    <div class="col-lg-6 f-body">
+                        <img class="f-img" src="{{ asset($file->file) }}">
+                    </div>
+                @endforeach
             </div>
            
         </div>
