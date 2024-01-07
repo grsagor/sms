@@ -144,7 +144,7 @@ class IntroductionController extends Controller
             ]);
         }
 
-        $banner = Banner::find($request->id);
+        $banner = Introduction::find($request->id);
         if ($banner) {
             if ($banner->file && file_exists(public_path($banner->file))) {
                 unlink(public_path($banner->file));
@@ -153,7 +153,7 @@ class IntroductionController extends Controller
             if ($banner->delete()) {
                 return response()->json([
                     'type' => 'success',
-                    'message' => 'Banner deleted successfully.',
+                    'message' => 'Introduction deleted successfully.',
                 ]);
             } else {
                 return redirect()->route('admin.home.banner')->with('error', 'Something went wrong.');

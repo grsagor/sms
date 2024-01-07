@@ -2,8 +2,10 @@
     <section id="topbar" class="d-flex align-items-center">
         <div class="container d-flex justify-content-center justify-content-md-between">
             <div class="contact-info d-flex align-items-center">
-                <p class="h-text">“শিক্ষা নিয়ে গড়ব দেশ শেখ হাসিনার বাংলাদেশ”</p>
                 <i class="bi bi-phone d-flex align-items-center ms-4"><span> Call : {{ Helper::getSettings('application_phone') }}</span></i>
+            </div>
+            <div>
+                <p class="h-text">“শিক্ষা নিয়ে গড়ব দেশ শেখ হাসিনার বাংলাদেশ”</p>
             </div>
             <div class="social-links d-none d-md-flex align-items-center">
                 <a href="{{ Helper::getSettings('twitter_link') }}" class="twitter"><i class="bi bi-twitter"></i></a>

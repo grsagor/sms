@@ -115,13 +115,6 @@
                     </a>
                 @endif --}}
 
-                @if (Helper::hasRight('menu.view'))
-                    <a class="nav-link {{ Route::is('admin.menu') ? 'active' : '' }}"
-                        href="{{ route('admin.menu') }}">
-                        <div class="sb-nav-link-icon"><i class="fa-regular fa-calendar-days"></i></div> Menu Management
-                    </a>
-                @endif
-
                 <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#homeNav"
                     aria-expanded="@if (Route::is('admin.setting.general') ||
                             Route::is('admin.setting.static.content') ||
